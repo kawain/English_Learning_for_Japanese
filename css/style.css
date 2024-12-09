@@ -1,0 +1,124 @@
+:root {
+  /* ライトモードのデフォルト値 */
+  --bg-color: #ffffff;
+  --text-color: #333333;
+  --border-color: #cccccc;
+  --button-bg: #4caf50;
+  --button-text: #ffffff;
+  --button-disabled: #cccccc;
+  --japanese-text: #666666;
+  --container-border: #cccccc;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* ダークモードの値 */
+    --bg-color: #1a1a1a;
+    --text-color: #e0e0e0;
+    --border-color: #404040;
+    --button-bg: #2d662f;
+    --button-text: #ffffff;
+    --button-disabled: #404040;
+    --japanese-text: #b0b0b0;
+    --container-border: #404040;
+  }
+}
+
+:root {
+  color-scheme: light dark;
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+.container {
+  max-width: 1000px;
+  margin: 20px auto;
+  padding: 20px;
+  border: 1px solid var(--container-border);
+  border-radius: 8px;
+}
+
+.controls {
+  margin: 20px 0;
+}
+
+.volume-control {
+  margin: 15px 0;
+}
+
+.button-group {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: none;
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  cursor: pointer;
+}
+
+button:disabled {
+  background-color: var(--button-disabled);
+  cursor: not-allowed;
+}
+
+#counter {
+  font-size: 24px;
+  text-align: center;
+  margin-top: 20px;
+}
+
+.volume-display {
+  display: inline-block;
+  min-width: 40px;
+  margin-left: 10px;
+}
+
+.word-display {
+  margin: 20px 0 50px 0;
+  text-align: center;
+}
+
+.english {
+  font-size: 68px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+
+.japanese {
+  font-size: 48px;
+  color: var(--japanese-text);
+}
+
+.word-table {
+  margin-top: 30px;
+  overflow-x: auto;
+}
+
+.word-table table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0 auto;
+}
+
+.word-table th,
+.word-table td {
+  border: 1px solid var(--border-color);
+  padding: 8px;
+}
+
+.word-table th {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+}
+
+.word-table .wordNo {
+  text-align: center;
+}

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>英単語学習</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <div class="container">
+      <h1>英単語学習</h1>
+      <div id="counter"></div>
+      <div class="word-display">
+        <div id="englishWord" class="english"></div>
+        <div id="japaneseWord" class="japanese"></div>
+      </div>
+
+      <div class="controls">
+        <div class="button-group">
+          <button id="startBtn">開始</button>
+          <button id="stopBtn">停止</button>
+        </div>
+        <div class="volume-control">
+          <label for="volumeSlider">音量: </label>
+          <input type="range" id="volumeSlider" min="0" max="100" value="50" />
+          <span id="volumeValue" class="volume-display">50%</span>
+        </div>
+      </div>
+      <h2>英単語一覧</h2>
+      <div class="word-table">
+        <table>
+          <thead>
+            <tr>
+              <th>No.</th>
+              <th>英語</th>
+              <th>日本語</th>
+            </tr>
+          </thead>
+          <tbody id="wordTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <script src="./js/main.js"></script>
+  </body>
+</html>
