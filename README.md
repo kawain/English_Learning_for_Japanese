@@ -1,12 +1,13 @@
-# English_Learning_for_Japanese
-
-下の英単語を一つ一つ単語の意味と例文を作成して欲しい。
+下の英単語を一つ一つ単語の意味と例文を作成してください。
 例のように処理してください。
 
 例：
-cull★
-選り抜く、選別する、間引く★
-農家は病気の個体を健康な家畜からcullする必要がありました。<br>
-The farmer had to cull the sick animals from the healthy livestock.
+thief★泥棒、盗人★泥棒は宝石を盗んで逃げました。
+<br>The thief ran away after stealing the jewels.
+
+assure★保証する、確信する★彼は私にすべてがうまくいくと保証しました。
+<br>He assured me that everything would be okay.
+以下省略
+
 
 英単語：
