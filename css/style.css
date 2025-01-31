@@ -97,6 +97,12 @@ button:disabled {
   color: var(--japanese-text);
 }
 
+.example {
+  padding: 50px 0 0 0;
+  font-size: 20px;
+  color: var(--japanese-text);
+}
+
 .word-table {
   margin-top: 30px;
   overflow-x: auto;

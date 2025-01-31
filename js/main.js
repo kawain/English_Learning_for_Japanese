@@ -11,6 +11,7 @@ const volumeSlider = document.getElementById('volumeSlider')
 const volumeValue = document.getElementById('volumeValue')
 const englishDisplay = document.getElementById('englishWord')
 const japaneseDisplay = document.getElementById('japaneseWord')
+const exampleDisplay = document.getElementById('exampleWord')
 
 // CSVファイルを読み込む関数
 async function loadCSV () {
@@ -29,7 +30,8 @@ async function loadCSV () {
       if (parts.length >= 2) {
         wordArray.push({
           en: parts[0].trim(),
-          jp: parts[1].trim()
+          jp: parts[1].trim(),
+          ex: parts[2].trim()
         })
 
         // テーブル行の作成
@@ -38,6 +40,7 @@ async function loadCSV () {
             <td class="wordNo">${i}</td>
             <td>${parts[0].trim()}</td>
             <td>${parts[1].trim()}</td>
+            <td>${parts[2].trim()}</td>
           </tr>
         `
       }
@@ -84,10 +87,13 @@ const speakWord = async () => {
     const word = getRandomWord()
     englishDisplay.textContent = word.en
     japaneseDisplay.textContent = '?'
+    exampleDisplay.textContent = ''
 
     await tts(word.en, 'en-US')
     await tts(word.en, 'en-US')
     japaneseDisplay.textContent = word.jp
+    exampleDisplay.innerHTML = word.ex
+
     await tts(word.jp, 'ja-JP')
     await tts(word.en, 'en-US')
 
