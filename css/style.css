@@ -98,9 +98,8 @@ button:disabled {
 }
 
 .example {
-  padding: 50px 0 0 0;
+  padding: 20px 0 0 0;
   font-size: 20px;
-  color: var(--japanese-text);
 }
 
 .word-table {

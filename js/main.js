@@ -11,7 +11,8 @@ const volumeSlider = document.getElementById('volumeSlider')
 const volumeValue = document.getElementById('volumeValue')
 const englishDisplay = document.getElementById('englishWord')
 const japaneseDisplay = document.getElementById('japaneseWord')
-const exampleDisplay = document.getElementById('exampleWord')
+const englishDisplay2 = document.getElementById('englishWord2')
+const japaneseDisplay2 = document.getElementById('japaneseWord2')
 
 // CSVファイルを読み込む関数
 async function loadCSV () {
@@ -27,12 +28,15 @@ async function loadCSV () {
       if (rows[i].trim() === '') continue
 
       const parts = rows[i].split('★')
-      if (parts.length >= 2) {
-        wordArray.push({
-          en: parts[0].trim(),
-          jp: parts[1].trim(),
-          ex: parts[2].trim()
-        })
+      if (parts.length >= 4) {
+        if (parts[3].trim()) {
+          wordArray.push({
+            en1: parts[0].trim(),
+            jp1: parts[1].trim(),
+            jp2: parts[2].trim(),
+            en2: parts[3].trim()
+          })
+        }
 
         // テーブル行の作成
         tableHTML += `
@@ -40,7 +44,7 @@ async function loadCSV () {
             <td class="wordNo">${i}</td>
             <td>${parts[0].trim()}</td>
             <td>${parts[1].trim()}</td>
-            <td>${parts[2].trim()}</td>
+            <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
           </tr>
         `
       }
@@ -85,17 +89,24 @@ const speakWord = async () => {
     counterDisplay.textContent = `${count}回目`
 
     const word = getRandomWord()
-    englishDisplay.textContent = word.en
+    englishDisplay.textContent = word.en1
     japaneseDisplay.textContent = '?'
-    exampleDisplay.textContent = ''
+    englishDisplay2.textContent = ''
+    japaneseDisplay2.textContent = ''
 
-    await tts(word.en, 'en-US')
-    await tts(word.en, 'en-US')
-    japaneseDisplay.textContent = word.jp
-    exampleDisplay.innerHTML = word.ex
+    await tts(word.en1, 'en-US')
+    await tts(word.en1, 'en-US')
+    japaneseDisplay.textContent = word.jp1
+    englishDisplay2.textContent = word.en2
 
-    await tts(word.jp, 'ja-JP')
-    await tts(word.en, 'en-US')
+    await tts(word.jp1, 'ja-JP')
+    await tts(word.en1, 'en-US')
+    await tts(word.en2, 'en-US')
+
+    japaneseDisplay2.textContent = word.jp2
+
+    await tts(word.jp2, 'ja-JP')
+    await tts(word.en2, 'en-US')
 
     if (isRunning) {
       timerId = setTimeout(speakWord, 3000)

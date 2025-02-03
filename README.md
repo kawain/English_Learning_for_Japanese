@@ -2,11 +2,11 @@
 例のように処理してください。
 
 例：
-thief★泥棒、盗人★泥棒は宝石を盗んで逃げました。
-<br>The thief ran away after stealing the jewels.
+thief★泥棒、盗人★泥棒は宝石を盗んで逃げました。★
+The thief ran away after stealing the jewels.
 
-assure★保証する、確信する★彼は私にすべてがうまくいくと保証しました。
-<br>He assured me that everything would be okay.
+assure★保証する、確信する★彼は私にすべてがうまくいくと保証しました。★
+He assured me that everything would be okay.
 以下省略
 
 
