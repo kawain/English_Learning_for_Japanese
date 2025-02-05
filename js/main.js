@@ -5,7 +5,7 @@ let volume = 0.5
 let wordArray = []
 
 // 1ブロックあたりの単語数
-const blockSize = 10
+const blockSize = 2
 let currentIndex = 0
 let review = false
 
@@ -133,26 +133,40 @@ const speakWord = async () => {
       review === false ? '初回' : '復習'
     })`
 
-    // 表示初期化
-    englishDisplay.textContent = word.en1
-    japaneseDisplay.textContent = '?'
-    englishDisplay2.textContent = ''
-    japaneseDisplay2.textContent = ''
+    if (review) {
+      // 表示初期化
+      englishDisplay.textContent = word.en1
+      japaneseDisplay.textContent = word.jp1
+      englishDisplay2.textContent = word.en2
+      japaneseDisplay2.textContent = ''
 
-    // 音声合成シーケンス（初回・復習とも同じ）
-    await tts(word.en1, 'en-US')
-    await tts(word.en1, 'en-US')
-    japaneseDisplay.textContent = word.jp1
-    englishDisplay2.textContent = word.en2
+      await tts(word.en2, 'en-US')
 
-    await tts(word.jp1, 'ja-JP')
-    await tts(word.en1, 'en-US')
-    await tts(word.en2, 'en-US')
+      japaneseDisplay2.textContent = word.jp2
 
-    japaneseDisplay2.textContent = word.jp2
+      await tts(word.jp2, 'ja-JP')
+      await tts(word.en2, 'en-US')
+    } else {
+      // 表示初期化
+      englishDisplay.textContent = word.en1
+      japaneseDisplay.textContent = '?'
+      englishDisplay2.textContent = ''
+      japaneseDisplay2.textContent = ''
 
-    await tts(word.jp2, 'ja-JP')
-    await tts(word.en2, 'en-US')
+      await tts(word.en1, 'en-US')
+      await tts(word.en1, 'en-US')
+      japaneseDisplay.textContent = word.jp1
+      englishDisplay2.textContent = word.en2
+
+      await tts(word.jp1, 'ja-JP')
+      await tts(word.en1, 'en-US')
+      await tts(word.en2, 'en-US')
+
+      japaneseDisplay2.textContent = word.jp2
+
+      await tts(word.jp2, 'ja-JP')
+      await tts(word.en2, 'en-US')
+    }
 
     currentIndex++
     if (review) {
@@ -179,7 +193,7 @@ const speakWord = async () => {
     }
 
     if (isRunning) {
-      timerId = setTimeout(speakWord, 1000)
+      timerId = setTimeout(speakWord, 2000)
     }
   } catch (error) {
     console.error('Speech synthesis error:', error)
