@@ -19,6 +19,36 @@ const japaneseDisplay = document.getElementById('japaneseWord')
 const englishDisplay2 = document.getElementById('englishWord2')
 const japaneseDisplay2 = document.getElementById('japaneseWord2')
 
+// Wake Lock 関連の変数・関数
+let wakeLock = null
+
+// Wake Lock を要求する関数（ユーザー入力処理内で呼び出す）
+async function requestWakeLock () {
+  try {
+    wakeLock = await navigator.wakeLock.request('screen')
+    wakeLock.addEventListener('release', () => {
+      console.log('Wake Lock が解放されました。')
+    })
+    console.log('Wake Lock が取得されました。')
+  } catch (err) {
+    console.error(`Wake Lock 取得に失敗しました: ${err.name}, ${err.message}`)
+  }
+}
+
+function releaseWakeLock () {
+  if (wakeLock !== null) {
+    wakeLock.release()
+    wakeLock = null
+  }
+}
+
+// ページが再表示されたときに再取得する処理（任意）
+document.addEventListener('visibilitychange', async () => {
+  if (wakeLock !== null && document.visibilityState === 'visible') {
+    await requestWakeLock()
+  }
+})
+
 // 配列をシャッフルする（Fisher-Yatesアルゴリズム）
 function shuffleArray (array) {
   for (let i = array.length - 1; i > 0; i--) {
@@ -135,6 +165,7 @@ const speakWord = async () => {
         startBtn.disabled = false
         stopBtn.disabled = true
         currentIndex = 0
+        releaseWakeLock() // ロック解除
         return
       }
     } else {
@@ -155,9 +186,11 @@ const speakWord = async () => {
   }
 }
 
-startBtn.addEventListener('click', () => {
+startBtn.addEventListener('click', async () => {
   if (!isRunning) {
     isRunning = true
+    // ユーザーの操作イベント内で Wake Lock を要求する
+    await requestWakeLock()
     speakWord()
     startBtn.disabled = true
     stopBtn.disabled = false
@@ -170,6 +203,7 @@ stopBtn.addEventListener('click', () => {
     isRunning = false
     startBtn.disabled = false
     stopBtn.disabled = true
+    releaseWakeLock() // アプリ停止時に Wake Lock を解除する
   }
 })
 
