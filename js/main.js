@@ -5,7 +5,7 @@ let volume = 0.5
 let wordArray = []
 
 // 1ブロックあたりの単語数
-const blockSize = 2
+const blockSize = 10
 let currentIndex = 0
 let review = false
 
