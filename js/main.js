@@ -68,8 +68,7 @@ async function loadCSV () {
     const tableBody = document.getElementById('wordTableBody')
     let tableHTML = ''
 
-    // ヘッダー行をスキップして2行目から処理
-    for (let i = 1; i < rows.length; i++) {
+    for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
 
       const parts = rows[i].split('★')
@@ -78,15 +77,16 @@ async function loadCSV () {
           wordArray.push({
             en1: parts[0].trim(),
             jp1: parts[1].trim(),
-            jp2: parts[2].trim(),
-            en2: parts[3].trim()
+            en2: parts[2].trim(),
+            jp2: parts[3].trim(),
+            level: parts[4].trim()
           })
         }
 
         // テーブル行の作成
         tableHTML += `
           <tr>
-            <td class="wordNo">${i}</td>
+            <td class="wordNo">${i + 1}</td>
             <td>${parts[0].trim()}</td>
             <td>${parts[1].trim()}</td>
             <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
