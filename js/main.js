@@ -128,6 +128,16 @@ volumeSlider.addEventListener('input', e => {
   volumeValue.textContent = `${e.target.value}%`
 })
 
+// タイムアウト付きで TTS を実行する関数
+const ttsWithTimeout = (text, lang, timeout = 10000) => {
+  return Promise.race([
+    tts(text, lang), // 実際の TTS 処理
+    new Promise((_, reject) =>
+      setTimeout(() => reject(new Error('TTS timed out')), timeout)
+    ) // タイムアウト処理
+  ])
+}
+
 const tts = (text, lang) => {
   return new Promise((resolve, reject) => {
     const uttr = new SpeechSynthesisUtterance()
@@ -137,21 +147,12 @@ const tts = (text, lang) => {
     uttr.pitch = 1.0
     uttr.volume = volume
 
-    uttr.onend = () => {
-      console.log(`TTS finished for: ${text}`) // デバッグログ
-      resolve()
-    }
-    uttr.onerror = error => {
-      console.error(`TTS error for: ${text}`, error) // エラーログ
-      reject(error)
-    }
+    uttr.onend = () => resolve()
+    uttr.onerror = error => reject(error)
 
     speechSynthesis.speak(uttr)
   })
 }
-
-// TTS が停止したとみなすまでの待機時間 (ms)
-const ttsSilenceTimeout = 2500 // 2.5秒
 
 const speakWord = async () => {
   try {
@@ -167,8 +168,6 @@ const speakWord = async () => {
       review === false ? '初回' : '復習'
     })`
 
-    let speakQueue = [] // Promise の配列を初期化
-
     if (review) {
       // 表示初期化
       englishDisplay.textContent = word.en1
@@ -176,12 +175,24 @@ const speakWord = async () => {
       englishDisplay2.textContent = word.en2
       japaneseDisplay2.textContent = ''
 
-      speakQueue.push(tts(word.en2, 'en-US'))
+      try {
+        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
 
       japaneseDisplay2.textContent = word.jp2
 
-      speakQueue.push(tts(word.jp2, 'ja-JP'))
-      speakQueue.push(tts(word.en2, 'en-US'))
+      try {
+        await ttsWithTimeout(word.jp2, 'ja-JP') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
+      try {
+        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
     } else {
       // 表示初期化
       englishDisplay.textContent = word.en1
@@ -189,26 +200,49 @@ const speakWord = async () => {
       englishDisplay2.textContent = ''
       japaneseDisplay2.textContent = ''
 
-      speakQueue.push(tts(word.en1, 'en-US'))
-      speakQueue.push(tts(word.en1, 'en-US'))
+      try {
+        await ttsWithTimeout(word.en1, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
+      try {
+        await ttsWithTimeout(word.en1, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
+
       japaneseDisplay.textContent = word.jp1
       englishDisplay2.textContent = word.en2
 
-      speakQueue.push(tts(word.jp1, 'ja-JP'))
-      speakQueue.push(tts(word.en1, 'en-US'))
-      speakQueue.push(tts(word.en2, 'en-US'))
+      try {
+        await ttsWithTimeout(word.jp1, 'ja-JP') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
+      try {
+        await ttsWithTimeout(word.en1, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
+      try {
+        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
 
       japaneseDisplay2.textContent = word.jp2
 
-      speakQueue.push(tts(word.jp2, 'ja-JP'))
-      speakQueue.push(tts(word.en2, 'en-US'))
+      try {
+        await ttsWithTimeout(word.jp2, 'ja-JP') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
+      try {
+        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
+      } catch (error) {
+        console.warn('Skipping due to timeout:', error.message)
+      }
     }
-
-    // 全てのTTSが終わるのを待つ処理
-    await Promise.all(speakQueue)
-
-    // ここでTTSが全て終了したとみなす
-    console.log('All TTS completed, proceeding to the next word.')
 
     currentIndex++
     if (review) {
