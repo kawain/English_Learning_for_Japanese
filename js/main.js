@@ -3,11 +3,13 @@ let timerId = null
 let isRunning = false
 let volume = 0.5
 let wordArray = []
+let originalWordArray = [] // 元の単語リストを保持
 
 // 1ブロックあたりの単語数
 const blockSize = 10
 let currentIndex = 0
 let review = false
+let currentLevel = '1' // 初期レベル
 
 const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
@@ -18,6 +20,7 @@ const englishDisplay = document.getElementById('englishWord')
 const japaneseDisplay = document.getElementById('japaneseWord')
 const englishDisplay2 = document.getElementById('englishWord2')
 const japaneseDisplay2 = document.getElementById('japaneseWord2')
+const levelRadios = document.querySelectorAll('input[name="level"]') // ラジオボタン
 
 // Wake Lock 関連の変数・関数
 let wakeLock = null
@@ -68,40 +71,56 @@ async function loadCSV () {
     const tableBody = document.getElementById('wordTableBody')
     let tableHTML = ''
 
+    originalWordArray = [] // 初期化
+
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
 
       const parts = rows[i].split('★')
-      if (parts.length >= 4) {
-        if (parts[3].trim()) {
-          wordArray.push({
-            en1: parts[0].trim(),
-            jp1: parts[1].trim(),
-            en2: parts[2].trim(),
-            jp2: parts[3].trim(),
-            level: parts[4].trim()
-          })
-        }
+      if (parts.length >= 5) {
+        // level情報があることを確認
+        const level = parts[4].trim()
+
+        originalWordArray.push({
+          // 元の配列に追加
+          en1: parts[0].trim(),
+          jp1: parts[1].trim(),
+          en2: parts[2].trim(),
+          jp2: parts[3].trim(),
+          level: level
+        })
 
         // テーブル行の作成
         tableHTML += `
-          <tr>
-            <td class="wordNo">${i + 1}</td>
-            <td>${parts[0].trim()}</td>
-            <td>${parts[1].trim()}</td>
-            <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
-          </tr>
-        `
+                    <tr>
+                      <td class="wordNo">${i + 1}</td>
+                      <td>${parts[0].trim()}</td>
+                      <td>${parts[1].trim()}</td>
+                      <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
+                    </tr>
+                  `
       }
     }
 
     tableBody.innerHTML = tableHTML
-    // 読み込み後に配列をシャッフル
-    shuffleArray(wordArray)
-    console.log('Loaded words:', wordArray)
+
+    // 初期レベルでフィルタリングしてシャッフル
+    filterAndShuffle(currentLevel)
+
+    console.log('Loaded words:', originalWordArray)
   } catch (error) {
     console.error('Error loading CSV:', error)
   }
+}
+
+// レベルでフィルタリングしてシャッフル
+function filterAndShuffle (level) {
+  wordArray = originalWordArray.filter(word => word.level === level)
+  shuffleArray(wordArray)
+  currentIndex = 0
+  count = 0
+  counterDisplay.textContent = `${count}回目 (初回)`
+  console.log(`Filtered and shuffled words for level ${level}:`, wordArray)
 }
 
 volumeSlider.addEventListener('input', e => {
@@ -127,6 +146,12 @@ const tts = (text, lang) => {
 
 const speakWord = async () => {
   try {
+    if (wordArray.length === 0) {
+      alert('選択されたレベルの単語がありません。')
+      stopStudy() // 停止処理
+      return
+    }
+
     const word = wordArray[currentIndex]
     count++
     counterDisplay.textContent = `${count}回目 (${
@@ -174,12 +199,7 @@ const speakWord = async () => {
         review = false
       } else if (currentIndex >= wordArray.length) {
         alert('終了しました。ページを再読込してください。')
-        review = false
-        isRunning = false
-        startBtn.disabled = false
-        stopBtn.disabled = true
-        currentIndex = 0
-        releaseWakeLock() // ロック解除
+        stopStudy() // 停止処理
         return
       }
     } else {
@@ -211,16 +231,30 @@ startBtn.addEventListener('click', async () => {
   }
 })
 
+function stopStudy () {
+  clearTimeout(timerId)
+  isRunning = false
+  startBtn.disabled = false
+  stopBtn.disabled = true
+  releaseWakeLock() // アプリ停止時に Wake Lock を解除する
+  currentIndex = 0
+  count = 0
+}
+
 stopBtn.addEventListener('click', () => {
-  if (isRunning) {
-    clearTimeout(timerId)
-    isRunning = false
-    startBtn.disabled = false
-    stopBtn.disabled = true
-    releaseWakeLock() // アプリ停止時に Wake Lock を解除する
-  }
+  stopStudy()
 })
 
 stopBtn.disabled = true
+
+// ラジオボタンの変更を監視
+levelRadios.forEach(radio => {
+  radio.addEventListener('change', () => {
+    currentLevel = radio.value
+    filterAndShuffle(currentLevel)
+    stopStudy() // 選択されたらリセット
+    counterDisplay.textContent = `${count}回目 (初回)` // カウンターリセット
+  })
+})
 
 window.addEventListener('DOMContentLoaded', loadCSV)

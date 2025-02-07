@@ -8,6 +8,9 @@
   --button-disabled: #cccccc;
   --japanese-text: #666666;
   --container-border: #cccccc;
+  --radio-bg: #ffffff; /* ラジオボタンの背景色 */
+  --radio-border: #cccccc; /* ラジオボタンのボーダー色 */
+  --radio-checked: #4caf50; /* 選択されたラジオボタンの色 */
 }
 
 @media (prefers-color-scheme: dark) {
@@ -21,6 +24,9 @@
     --button-disabled: #404040;
     --japanese-text: #b0b0b0;
     --container-border: #404040;
+    --radio-bg: #333333;
+    --radio-border: #404040;
+    --radio-checked: #2d662f;
   }
 }
 
@@ -53,6 +59,7 @@ body {
   display: flex;
   gap: 10px;
   margin-bottom: 15px;
+  align-items: center; /*  垂直方向中央揃え */
 }
 
 button {
@@ -126,4 +133,45 @@ button:disabled {
 
 .word-table .wordNo {
   text-align: center;
+}
+
+/* ラジオボタンのスタイル */
+.level-select {
+  display: flex;
+  gap: 10px;
+  align-items: center; /* 垂直方向中央揃え */
+}
+
+.level-select label {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.level-select input[type='radio'] {
+  appearance: none; /* デフォルトのスタイルを削除 */
+  width: 16px;
+  height: 16px;
+  border: 2px solid var(--radio-border);
+  border-radius: 50%;
+  background-color: var(--radio-bg);
+  cursor: pointer;
+  position: relative;
+}
+
+.level-select input[type='radio']:checked {
+  border-color: var(--radio-checked);
+}
+
+.level-select input[type='radio']:checked::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 8px;
+  height: 8px;
+  background-color: var(--radio-checked);
+  border-radius: 50%;
 }
