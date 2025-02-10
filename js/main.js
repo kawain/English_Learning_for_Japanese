@@ -119,8 +119,6 @@ function filterAndShuffle (level) {
   shuffleArray(wordArray)
   currentIndex = 0
   count = 0
-  counterDisplay.textContent = `${count}回目 (初回)`
-  console.log(`Filtered and shuffled words for level ${level}:`, wordArray)
 }
 
 volumeSlider.addEventListener('input', e => {
@@ -251,6 +249,9 @@ const speakWord = async () => {
       } else if (currentIndex >= wordArray.length) {
         alert('終了しました。ページを再読込してください。')
         stopStudy() // 停止処理
+        currentIndex = 0
+        count = 0
+        releaseWakeLock() // アプリ停止時に Wake Lock を解除する
         return
       }
     } else {
@@ -287,9 +288,6 @@ function stopStudy () {
   isRunning = false
   startBtn.disabled = false
   stopBtn.disabled = true
-  releaseWakeLock() // アプリ停止時に Wake Lock を解除する
-  currentIndex = 0
-  count = 0
 }
 
 stopBtn.addEventListener('click', () => {
