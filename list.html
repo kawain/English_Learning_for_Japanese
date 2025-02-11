@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>英単語一覧</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="./css/style.css" />
+  </head>
+  <body>
+    <h1>英単語一覧</h1>
+    <div class="word-table">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>レベル</th>
+            <th>英語</th>
+            <th>日本語</th>
+            <th>例文</th>
+          </tr>
+        </thead>
+        <tbody id="wordTableBody"></tbody>
+      </table>
+    </div>
+    <script>
+      const tableBody = document.getElementById('wordTableBody')
+      // CSVファイルを読み込む関数
+      async function loadCSV() {
+        try {
+          const response = await fetch('./word.csv')
+          const data = await response.text()
+          const rows = data.split('\n')
+          let tableHTML = ''
+
+          for (let i = 0; i < rows.length; i++) {
+            if (rows[i].trim() === '') continue
+
+            const parts = rows[i].split('★')
+            if (parts.length >= 5) {
+              tableHTML += `
+                    <tr>
+                      <td class="wordNo">${i + 1}</td>
+                      <td class="wordNo">${parts[4].trim()}</td>
+                      <td>${parts[0].trim()}</td>
+                      <td>${parts[1].trim()}</td>
+                      <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
+                    </tr>
+                  `
+            }
+          }
+
+          tableBody.innerHTML = tableHTML
+          console.log('Loaded words:', originalWordArray)
+        } catch (error) {
+          console.error('Error loading CSV:', error)
+        }
+      }
+      window.addEventListener('DOMContentLoaded', loadCSV)
+    </script>
+  </body>
+</html>

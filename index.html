@@ -8,52 +8,44 @@
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <div class="container">
-      <h1>英単語学習</h1>
-      <div id="counter"></div>
-      <div class="word-display">
-        <div id="englishWord" class="english"></div>
-        <div id="japaneseWord" class="japanese"></div>
-        <div id="englishWord2" class="example"></div>
-        <div id="japaneseWord2" class="example"></div>
-      </div>
-      <div class="controls">
-        <div class="button-group">
-          <button id="startBtn">開始</button>
-          <button id="stopBtn">停止</button>
-          <div class="level-select">
-            <label>
-              <input type="radio" name="level" value="1" checked />
-              レベル1
-            </label>
-            <label>
-              <input type="radio" name="level" value="2" />
-              レベル2
-            </label>
-          </div>
-        </div>
-        <div class="volume-control">
-          <label for="volumeSlider">音量: </label>
-          <input type="range" id="volumeSlider" min="0" max="100" value="50" />
-          <span id="volumeValue" class="volume-display">50%</span>
-        </div>
-      </div>
-      <h2>英単語一覧</h2>
-      <div class="word-table">
-        <table>
-          <thead>
-            <tr>
-              <th>No.</th>
-              <th>英語</th>
-              <th>日本語</th>
-              <th>例文</th>
-            </tr>
-          </thead>
-          <tbody id="wordTableBody"></tbody>
-        </table>
-      </div>
+    <h1>
+      英単語学習 <small><span id="counter"></span></small>
+    </h1>
+
+    <div class="word-display">
+      <div id="englishWord" class="english"></div>
+      <div id="japaneseWord" class="japanese"></div>
+      <div id="englishWord2" class="english"></div>
+      <div id="japaneseWord2" class="japanese"></div>
     </div>
 
+    <div class="controls">
+      <div class="button-group">
+        <button id="startBtn">開始</button>
+        <button id="stopBtn">停止</button>
+        <div class="level-select">
+          <label>
+            <input type="radio" name="level" value="1" checked />
+            レベル1
+          </label>
+          <label>
+            <input type="radio" name="level" value="2" />
+            レベル2
+          </label>
+        </div>
+        <div>
+          <a href="list.html" target="_blank" rel="noopener noreferrer"
+            >単語一覧</a
+          >
+        </div>
+      </div>
+
+      <div class="volume-control">
+        <label for="volumeSlider">音量: </label>
+        <input type="range" id="volumeSlider" min="0" max="100" value="50" />
+        <span id="volumeValue" class="volume-display">50%</span>
+      </div>
+    </div>
     <script src="./js/main.js"></script>
   </body>
 </html>

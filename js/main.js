@@ -3,13 +3,15 @@ let timerId = null
 let isRunning = false
 let volume = 0.5
 let wordArray = []
-let originalWordArray = [] // 元の単語リストを保持
+let originalWordArray = []
 
 // 1ブロックあたりの単語数
 const blockSize = 10
 let currentIndex = 0
 let review = false
-let currentLevel = '1' // 初期レベル
+
+// 初期レベル
+let currentLevel = '1'
 
 const startBtn = document.getElementById('startBtn')
 const stopBtn = document.getElementById('stopBtn')
@@ -20,7 +22,7 @@ const englishDisplay = document.getElementById('englishWord')
 const japaneseDisplay = document.getElementById('japaneseWord')
 const englishDisplay2 = document.getElementById('englishWord2')
 const japaneseDisplay2 = document.getElementById('japaneseWord2')
-const levelRadios = document.querySelectorAll('input[name="level"]') // ラジオボタン
+const levelRadios = document.querySelectorAll('input[name="level"]')
 
 // Wake Lock 関連の変数・関数
 let wakeLock = null
@@ -68,10 +70,6 @@ async function loadCSV () {
     const response = await fetch('./word.csv')
     const data = await response.text()
     const rows = data.split('\n')
-    const tableBody = document.getElementById('wordTableBody')
-    let tableHTML = ''
-
-    originalWordArray = [] // 初期化
 
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
@@ -89,24 +87,11 @@ async function loadCSV () {
           jp2: parts[3].trim(),
           level: level
         })
-
-        // テーブル行の作成
-        tableHTML += `
-                    <tr>
-                      <td class="wordNo">${i + 1}</td>
-                      <td>${parts[0].trim()}</td>
-                      <td>${parts[1].trim()}</td>
-                      <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
-                    </tr>
-                  `
       }
     }
 
-    tableBody.innerHTML = tableHTML
-
     // 初期レベルでフィルタリングしてシャッフル
     filterAndShuffle(currentLevel)
-
     console.log('Loaded words:', originalWordArray)
   } catch (error) {
     console.error('Error loading CSV:', error)
@@ -125,16 +110,6 @@ volumeSlider.addEventListener('input', e => {
   volume = e.target.value / 100
   volumeValue.textContent = `${e.target.value}%`
 })
-
-// タイムアウト付きで TTS を実行する関数
-const ttsWithTimeout = (text, lang, timeout = 10000) => {
-  return Promise.race([
-    tts(text, lang), // 実際の TTS 処理
-    new Promise((_, reject) =>
-      setTimeout(() => reject(new Error('TTS timed out')), timeout)
-    ) // タイムアウト処理
-  ])
-}
 
 const tts = (text, lang) => {
   return new Promise((resolve, reject) => {
@@ -156,7 +131,7 @@ const speakWord = async () => {
   try {
     if (wordArray.length === 0) {
       alert('選択されたレベルの単語がありません。')
-      stopStudy() // 停止処理
+      stopStudy()
       return
     }
 
@@ -167,79 +142,29 @@ const speakWord = async () => {
     })`
 
     if (review) {
-      // 表示初期化
       englishDisplay.textContent = word.en1
       japaneseDisplay.textContent = word.jp1
       englishDisplay2.textContent = word.en2
       japaneseDisplay2.textContent = ''
-
-      try {
-        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-
+      await tts(word.en2, 'en-US')
       japaneseDisplay2.textContent = word.jp2
-
-      try {
-        await ttsWithTimeout(word.jp2, 'ja-JP') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-      try {
-        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
+      await tts(word.jp2, 'ja-JP')
+      await tts(word.en2, 'en-US')
     } else {
-      // 表示初期化
       englishDisplay.textContent = word.en1
       japaneseDisplay.textContent = '?'
       englishDisplay2.textContent = ''
       japaneseDisplay2.textContent = ''
-
-      try {
-        await ttsWithTimeout(word.en1, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-      try {
-        await ttsWithTimeout(word.en1, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-
+      await tts(word.en1, 'en-US')
+      await tts(word.en1, 'en-US')
       japaneseDisplay.textContent = word.jp1
+      await tts(word.jp1, 'ja-JP')
+      await tts(word.en1, 'en-US')
       englishDisplay2.textContent = word.en2
-
-      try {
-        await ttsWithTimeout(word.jp1, 'ja-JP') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-      try {
-        await ttsWithTimeout(word.en1, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-      try {
-        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-
+      await tts(word.en2, 'en-US')
       japaneseDisplay2.textContent = word.jp2
-
-      try {
-        await ttsWithTimeout(word.jp2, 'ja-JP') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
-      try {
-        await ttsWithTimeout(word.en2, 'en-US') // タイムアウト対応
-      } catch (error) {
-        console.warn('Skipping due to timeout:', error.message)
-      }
+      await tts(word.jp2, 'ja-JP')
+      await tts(word.en2, 'en-US')
     }
 
     currentIndex++
@@ -248,7 +173,7 @@ const speakWord = async () => {
         review = false
       } else if (currentIndex >= wordArray.length) {
         alert('終了しました。ページを再読込してください。')
-        stopStudy() // 停止処理
+        stopStudy()
         currentIndex = 0
         count = 0
         releaseWakeLock() // アプリ停止時に Wake Lock を解除する
@@ -301,8 +226,14 @@ levelRadios.forEach(radio => {
   radio.addEventListener('change', () => {
     currentLevel = radio.value
     filterAndShuffle(currentLevel)
-    stopStudy() // 選択されたらリセット
-    counterDisplay.textContent = `${count}回目 (初回)` // カウンターリセット
+    stopStudy()
+    counterDisplay.textContent = `${count}回目 (初回)`
+    startBtn.disabled = false
+    stopBtn.disabled = true
+    englishDisplay.textContent = ''
+    japaneseDisplay.textContent = ''
+    englishDisplay2.textContent = ''
+    japaneseDisplay2.textContent = ''
   })
 })
 
