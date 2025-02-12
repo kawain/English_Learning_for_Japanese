@@ -15,8 +15,8 @@
     <div class="word-display">
       <div id="englishWord" class="english"></div>
       <div id="japaneseWord" class="japanese"></div>
-      <div id="englishWord2" class="english"></div>
-      <div id="japaneseWord2" class="japanese"></div>
+      <div id="englishWord2" class="english2"></div>
+      <div id="japaneseWord2" class="japanese2"></div>
     </div>
 
     <div class="controls">
@@ -46,6 +46,23 @@
         <span id="volumeValue" class="volume-display">50%</span>
       </div>
     </div>
+
+    <div id="reviewBox" style="display: none">
+      <h2>今回の英単語一覧</h2>
+      <div class="word-table">
+        <table>
+          <thead>
+            <tr>
+              <th>英語</th>
+              <th>日本語</th>
+              <th>例文</th>
+            </tr>
+          </thead>
+          <tbody id="wordTableBody"></tbody>
+        </table>
+      </div>
+    </div>
+
     <script src="./js/main.js"></script>
   </body>
 </html>

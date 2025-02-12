@@ -23,6 +23,8 @@ const japaneseDisplay = document.getElementById('japaneseWord')
 const englishDisplay2 = document.getElementById('englishWord2')
 const japaneseDisplay2 = document.getElementById('japaneseWord2')
 const levelRadios = document.querySelectorAll('input[name="level"]')
+const reviewBox = document.getElementById('reviewBox')
+const tableBody = document.getElementById('wordTableBody')
 
 // Wake Lock 関連の変数・関数
 let wakeLock = null
@@ -151,6 +153,22 @@ const speakWord = async () => {
       await tts(word.jp2, 'ja-JP')
       await tts(word.en2, 'en-US')
     } else {
+      // 新しい行 (<tr>) を作成
+      const newRow = document.createElement('tr')
+      // セル (<td>) を作成し、内容を設定
+      const cell1 = document.createElement('td')
+      cell1.textContent = word.en1
+      const cell2 = document.createElement('td')
+      cell2.textContent = word.jp1
+      const cell3 = document.createElement('td')
+      cell3.innerHTML = `${word.en2}<br>${word.jp2}` // <br> を含むため innerHTML を使用
+      // セルを行に追加
+      newRow.appendChild(cell1)
+      newRow.appendChild(cell2)
+      newRow.appendChild(cell3)
+      // 行をテーブル本体に追加
+      tableBody.appendChild(newRow)
+
       englishDisplay.textContent = word.en1
       japaneseDisplay.textContent = '?'
       englishDisplay2.textContent = ''
@@ -205,6 +223,7 @@ startBtn.addEventListener('click', async () => {
     speakWord()
     startBtn.disabled = true
     stopBtn.disabled = false
+    reviewBox.style.display = 'block'
   }
 })
 
