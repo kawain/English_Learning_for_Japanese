@@ -1,10 +1,11 @@
+import { getExcludedWordIds } from './localStorage.js'
+
 let count = 0
 let timerId = null
 let isRunning = false
 let volume = 0.5
 let wordArray = []
 let originalWordArray = []
-const localStorageKey = 'excludedWords' // localStorageのキー
 
 // 1ブロックあたりの単語数
 const blockSize = 10
@@ -73,8 +74,7 @@ async function loadCSV () {
     const response = await fetch('./word.csv')
     const data = await response.text()
     const rows = data.split('\n')
-    const excludedWords =
-      JSON.parse(localStorage.getItem(localStorageKey)) || [] // localStorageから除外単語を取得
+    const excludedWords = getExcludedWordIds()
 
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
