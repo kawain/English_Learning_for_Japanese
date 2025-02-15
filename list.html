@@ -35,6 +35,7 @@
             <th>英語</th>
             <th>日本語</th>
             <th>例文</th>
+            <th>復元</th>
           </tr>
         </thead>
         <tbody id="excludedTableBody"></tbody>
@@ -100,7 +101,7 @@
                       <td>${word.english}</td>
                       <td>${word.japanese}</td>
                       <td>${word.example}</td>
-                      <td class="wordNo"><button data-id="${word.id}">除外</button></td>
+                      <td class="wordNo"><button class="exclude-button" data-id="${word.id}">除外</button></td>
                     </tr>
                   `
           }
@@ -118,6 +119,7 @@
                       <td>${word.english}</td>
                       <td>${word.japanese}</td>
                       <td>${word.example}</td>
+                      <td class="wordNo"><button class="restore-button" data-id="${word.id}">復元</button></td>
                     </tr>
                   `
           }
@@ -127,7 +129,7 @@
 
       tableBody.addEventListener('click', e => {
         const clickedElement = e.target
-        if (clickedElement.tagName === 'BUTTON') {
+        if (clickedElement.classList.contains('exclude-button')) {
           const dataId = clickedElement.dataset.id
           if (dataId) {
             // localStorageから配列を取得 (存在しなければ空の配列)
@@ -145,6 +147,28 @@
                 JSON.stringify(excludedWords)
               )
             }
+
+            // renderTables() // テーブルを再描画
+          } else {
+            console.warn('クリックされたボタンにdata-id属性がありません。')
+          }
+        }
+      })
+
+      excludedTableBody.addEventListener('click', e => {
+        const clickedElement = e.target
+        if (clickedElement.classList.contains('restore-button')) {
+          const dataId = clickedElement.dataset.id
+          if (dataId) {
+            // localStorageから配列を取得
+            let excludedWords =
+              JSON.parse(localStorage.getItem(localStorageKey)) || []
+
+            // dataIdを削除
+            excludedWords = excludedWords.filter(id => id !== dataId)
+
+            // localStorageに保存
+            localStorage.setItem(localStorageKey, JSON.stringify(excludedWords))
 
             renderTables() // テーブルを再描画
           } else {
