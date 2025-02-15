@@ -18,44 +18,148 @@
             <th>英語</th>
             <th>日本語</th>
             <th>例文</th>
+            <th>除外ボタン</th>
           </tr>
         </thead>
         <tbody id="wordTableBody"></tbody>
       </table>
     </div>
+
+    <h2>除外した単語</h2>
+    <div class="word-table">
+      <table>
+        <thead>
+          <tr>
+            <th>No.</th>
+            <th>レベル</th>
+            <th>英語</th>
+            <th>日本語</th>
+            <th>例文</th>
+          </tr>
+        </thead>
+        <tbody id="excludedTableBody"></tbody>
+      </table>
+    </div>
+
+    <div class="center">
+      <button id="clearLocalStorage">ローカルストレージの全クリア</button>
+    </div>
+
     <script>
       const tableBody = document.getElementById('wordTableBody')
+      const excludedTableBody = document.getElementById('excludedTableBody')
+      const localStorageKey = 'excludedWords'
+      const clearLocalStorageButton =
+        document.getElementById('clearLocalStorage')
+
+      let allWords = [] // すべての単語を保持する配列
+
       // CSVファイルを読み込む関数
       async function loadCSV() {
         try {
           const response = await fetch('./word.csv')
           const data = await response.text()
           const rows = data.split('\n')
-          let tableHTML = ''
+          allWords = [] // 初期化
 
           for (let i = 0; i < rows.length; i++) {
             if (rows[i].trim() === '') continue
 
             const parts = rows[i].split('★')
-            if (parts.length >= 5) {
-              tableHTML += `
-                    <tr>
-                      <td class="wordNo">${i + 1}</td>
-                      <td class="wordNo">${parts[4].trim()}</td>
-                      <td>${parts[0].trim()}</td>
-                      <td>${parts[1].trim()}</td>
-                      <td>${parts[2].trim()}<br>${parts[3].trim()}</td>
-                    </tr>
-                  `
+            if (parts.length == 6) {
+              allWords.push({
+                id: parts[0].trim(),
+                level: parts[5].trim(),
+                english: parts[1].trim(),
+                japanese: parts[2].trim(),
+                example: `${parts[3].trim()}<br>${parts[4].trim()}`,
+                index: i + 1
+              })
             }
           }
 
-          tableBody.innerHTML = tableHTML
-          console.log('Loaded words:', originalWordArray)
+          renderTables() // テーブルを描画
+          console.log('Loaded words:', allWords)
         } catch (error) {
           console.error('Error loading CSV:', error)
         }
       }
+
+      function renderTables() {
+        const excludedWords =
+          JSON.parse(localStorage.getItem(localStorageKey)) || []
+
+        // 通常のテーブルの描画
+        let tableHTML = ''
+        allWords.forEach(word => {
+          if (!excludedWords.includes(word.id)) {
+            tableHTML += `
+                    <tr>
+                      <td class="wordNo">${word.index}</td>
+                      <td class="wordNo">${word.level}</td>
+                      <td>${word.english}</td>
+                      <td>${word.japanese}</td>
+                      <td>${word.example}</td>
+                      <td class="wordNo"><button data-id="${word.id}">除外</button></td>
+                    </tr>
+                  `
+          }
+        })
+        tableBody.innerHTML = tableHTML
+
+        // 除外されたテーブルの描画
+        let excludedTableHTML = ''
+        allWords.forEach(word => {
+          if (excludedWords.includes(word.id)) {
+            excludedTableHTML += `
+                    <tr>
+                      <td class="wordNo">${word.index}</td>
+                      <td class="wordNo">${word.level}</td>
+                      <td>${word.english}</td>
+                      <td>${word.japanese}</td>
+                      <td>${word.example}</td>
+                    </tr>
+                  `
+          }
+        })
+        excludedTableBody.innerHTML = excludedTableHTML
+      }
+
+      tableBody.addEventListener('click', e => {
+        const clickedElement = e.target
+        if (clickedElement.tagName === 'BUTTON') {
+          const dataId = clickedElement.dataset.id
+          if (dataId) {
+            // localStorageから配列を取得 (存在しなければ空の配列)
+            let excludedWords =
+              JSON.parse(localStorage.getItem(localStorageKey)) || []
+
+            // 重複チェック
+            if (!excludedWords.includes(dataId)) {
+              // dataIdを追加
+              excludedWords.push(dataId)
+
+              // localStorageに保存
+              localStorage.setItem(
+                localStorageKey,
+                JSON.stringify(excludedWords)
+              )
+            }
+
+            renderTables() // テーブルを再描画
+          } else {
+            console.warn('クリックされたボタンにdata-id属性がありません。')
+          }
+        }
+      })
+
+      // ローカルストレージのクリア
+      clearLocalStorageButton.addEventListener('click', () => {
+        localStorage.removeItem(localStorageKey)
+        renderTables() // テーブルを再描画
+        console.log('ローカルストレージをクリアしました')
+      })
+
       window.addEventListener('DOMContentLoaded', loadCSV)
     </script>
   </body>

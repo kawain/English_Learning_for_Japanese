@@ -139,3 +139,7 @@ button:disabled {
 .word-table .wordNo {
   text-align: center;
 }
+
+.center {
+  text-align: center;
+}

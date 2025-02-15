@@ -4,6 +4,7 @@ let isRunning = false
 let volume = 0.5
 let wordArray = []
 let originalWordArray = []
+const localStorageKey = 'excludedWords' // localStorageのキー
 
 // 1ブロックあたりの単語数
 const blockSize = 10
@@ -72,23 +73,26 @@ async function loadCSV () {
     const response = await fetch('./word.csv')
     const data = await response.text()
     const rows = data.split('\n')
+    const excludedWords =
+      JSON.parse(localStorage.getItem(localStorageKey)) || [] // localStorageから除外単語を取得
 
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
 
       const parts = rows[i].split('★')
-      if (parts.length >= 5) {
-        // level情報があることを確認
-        const level = parts[4].trim()
-
-        originalWordArray.push({
-          // 元の配列に追加
-          en1: parts[0].trim(),
-          jp1: parts[1].trim(),
-          en2: parts[2].trim(),
-          jp2: parts[3].trim(),
-          level: level
-        })
+      if (parts.length == 6) {
+        const word = {
+          id: parts[0].trim(),
+          en1: parts[1].trim(),
+          jp1: parts[2].trim(),
+          en2: parts[3].trim(),
+          jp2: parts[4].trim(),
+          level: parts[5].trim()
+        }
+        // 除外された単語でない場合のみ配列に追加
+        if (!excludedWords.includes(word.id)) {
+          originalWordArray.push(word)
+        }
       }
     }
 
@@ -161,7 +165,7 @@ const speakWord = async () => {
       const cell2 = document.createElement('td')
       cell2.textContent = word.jp1
       const cell3 = document.createElement('td')
-      cell3.innerHTML = `${word.en2}<br>${word.jp2}` // <br> を含むため innerHTML を使用
+      cell3.innerHTML = `${word.en2}<br>${word.jp2}`
       // セルを行に追加
       newRow.appendChild(cell1)
       newRow.appendChild(cell2)
@@ -253,6 +257,7 @@ levelRadios.forEach(radio => {
     japaneseDisplay.textContent = ''
     englishDisplay2.textContent = ''
     japaneseDisplay2.textContent = ''
+    tableBody.innerHTML = '' // 画面クリア
   })
 })
 
