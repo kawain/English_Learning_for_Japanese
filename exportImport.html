@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>LocalStorage エクスポート/インポート</title>
+    <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+  </head>
+  <body>
+    <h1>LocalStorage エクスポート/インポート</h1>
+
+    <p>他のブラウザにデータを移動できます</p>
+    <p>
+      <button id="exportButton">エクスポート</button>
+    </p>
+
+    <p>
+      <label for="importFile">インポート:</label>
+      <input type="file" id="importFile" accept=".txt" />
+    </p>
+
+    <script>
+      const localStorageKey = 'excludedWords'
+
+      // エクスポート機能
+      document.getElementById('exportButton').addEventListener('click', () => {
+        const data = localStorage.getItem(localStorageKey)
+        if (!data) {
+          alert('エクスポートするデータがありません。')
+          return
+        }
+
+        // Blobを作成
+        const blob = new Blob([data], { type: 'text/plain' })
+        const url = URL.createObjectURL(blob)
+
+        // ダウンロードリンクを作成
+        const a = document.createElement('a')
+        a.href = url
+        a.download = 'excludedWords.txt'
+        a.click()
+
+        // URLを解放
+        URL.revokeObjectURL(url)
+      })
+
+      // インポート機能
+      document
+        .getElementById('importFile')
+        .addEventListener('change', event => {
+          const file = event.target.files[0]
+          if (!file) {
+            alert('ファイルが選択されていません。')
+            return
+          }
+
+          const reader = new FileReader()
+          reader.onload = e => {
+            try {
+              const content = e.target.result
+              const parsedData = JSON.parse(content)
+
+              // データが配列であることを確認
+              if (!Array.isArray(parsedData)) {
+                throw new Error('インポートデータが正しい形式ではありません。')
+              }
+
+              // localStorageに保存
+              localStorage.setItem(localStorageKey, JSON.stringify(parsedData))
+              alert('データをインポートしました。')
+            } catch (error) {
+              alert(`インポートに失敗しました: ${error.message}`)
+            }
+          }
+
+          // ファイルを読み込む
+          reader.readAsText(file)
+        })
+    </script>
+  </body>
+</html>
