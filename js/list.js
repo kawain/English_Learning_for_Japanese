@@ -1,14 +1,7 @@
-import {
-  getExcludedWordIds,
-  addExcludedWordId,
-  removeExcludedWordId,
-  clearExcludedWordIds
-} from './localStorage.js'
+import { getExcludedWordIds, addExcludedWordId } from './localStorage.js'
 
 document.getElementById('h1').textContent = `レベル${level} `
 const tableBody = document.getElementById('wordTableBody')
-const excludedTableBody = document.getElementById('excludedTableBody')
-const clearLocalStorageButton = document.getElementById('clearLocalStorage')
 
 let allWords = []
 
@@ -65,24 +58,6 @@ function renderTables () {
     }
   })
   tableBody.innerHTML = tableHTML
-
-  // 除外されたテーブルの描画
-  let excludedTableHTML = ''
-  allWords.forEach(word => {
-    if (excludedWords.includes(word.id)) {
-      excludedTableHTML += `
-              <tr>
-                <td class="wordNo">${word.index}</td>
-                <td class="wordNo">${word.level}</td>
-                <td>${word.english}</td>
-                <td>${word.japanese}</td>
-                <td>${word.example}</td>
-                <td class="wordNo"><button class="restore-button" data-id="${word.id}">復元</button></td>
-              </tr>
-            `
-    }
-  })
-  excludedTableBody.innerHTML = excludedTableHTML
 }
 
 tableBody.addEventListener('click', e => {
@@ -92,30 +67,8 @@ tableBody.addEventListener('click', e => {
     if (dataId) {
       addExcludedWordId(dataId)
       renderTables()
-    } else {
-      console.warn('クリックされたボタンにdata-id属性がありません。')
     }
   }
-})
-
-excludedTableBody.addEventListener('click', e => {
-  const clickedElement = e.target
-  if (clickedElement.classList.contains('restore-button')) {
-    const dataId = clickedElement.dataset.id
-    if (dataId) {
-      removeExcludedWordId(dataId)
-      renderTables()
-    } else {
-      console.warn('クリックされたボタンにdata-id属性がありません。')
-    }
-  }
-})
-
-// ローカルストレージのクリア
-clearLocalStorageButton.addEventListener('click', () => {
-  clearExcludedWordIds()
-  renderTables()
-  console.log('ローカルストレージをクリアしました')
 })
 
 window.addEventListener('DOMContentLoaded', loadCSV)

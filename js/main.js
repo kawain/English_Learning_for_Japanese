@@ -1,4 +1,4 @@
-import { getExcludedWordIds } from './localStorage.js'
+import { getExcludedWordIds, addExcludedWordId } from './localStorage.js'
 
 let count = 0
 let timerId = null
@@ -166,10 +166,14 @@ const speakWord = async () => {
       cell2.textContent = word.jp1
       const cell3 = document.createElement('td')
       cell3.innerHTML = `${word.en2}<br>${word.jp2}`
+      const cell4 = document.createElement('td')
+      cell4.classList.add('wordNo')
+      cell4.innerHTML = `<button class="exclude-button" data-id="${word.id}">除外</button>`
       // セルを行に追加
       newRow.appendChild(cell1)
       newRow.appendChild(cell2)
       newRow.appendChild(cell3)
+      newRow.appendChild(cell4)
       // 行をテーブル本体に追加
       tableBody.appendChild(newRow)
 
@@ -259,6 +263,17 @@ levelRadios.forEach(radio => {
     japaneseDisplay2.textContent = ''
     tableBody.innerHTML = '' // 画面クリア
   })
+})
+
+tableBody.addEventListener('click', e => {
+  const clickedElement = e.target
+  if (clickedElement.classList.contains('exclude-button')) {
+    const dataId = clickedElement.dataset.id
+    if (dataId) {
+      addExcludedWordId(dataId)
+      alert('除外しました')
+    }
+  }
 })
 
 window.addEventListener('DOMContentLoaded', loadCSV)

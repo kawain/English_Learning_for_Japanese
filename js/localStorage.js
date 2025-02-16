@@ -51,9 +51,11 @@ export function removeExcludedWordId (wordId) {
  * ローカルストレージの除外されたIDの配列をクリアする。
  */
 export function clearExcludedWordIds () {
-  try {
-    localStorage.removeItem(localStorageKey)
-  } catch (error) {
-    console.error('ローカルストレージのクリアに失敗しました:', error)
+  if (window.confirm('本当に除外した単語を全部復元しますか？')) {
+    try {
+      localStorage.removeItem(localStorageKey)
+    } catch (error) {
+      console.error('ローカルストレージのクリアに失敗しました:', error)
+    }
   }
 }

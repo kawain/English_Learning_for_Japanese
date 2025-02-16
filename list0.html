@@ -3,12 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>英単語一覧</title>
+    <title>除外英単語一覧</title>
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
     <link rel="stylesheet" href="./css/style.css" />
   </head>
   <body>
-    <h1><span id="h1"></span>英単語一覧</h1>
+    <h1>除外した単語</h1>
     <div class="word-table">
       <table>
         <thead>
@@ -18,15 +18,16 @@
             <th>英語</th>
             <th>日本語</th>
             <th>例文</th>
-            <th>除外</th>
+            <th>復元</th>
           </tr>
         </thead>
-        <tbody id="wordTableBody"></tbody>
+        <tbody id="excludedTableBody"></tbody>
       </table>
     </div>
-    <script>
-      const level = '2'
-    </script>
-    <script type="module" src="./js/list.js"></script>
+
+    <div class="center">
+      <button id="clearLocalStorage">全部復元する</button>
+    </div>
+    <script type="module" src="./js/exclusionList.js"></script>
   </body>
 </html>
