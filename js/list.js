@@ -24,8 +24,7 @@ async function loadCSV () {
             level: parts[5].trim(),
             english: parts[1].trim(),
             japanese: parts[2].trim(),
-            example: `${parts[3].trim()}<br>${parts[4].trim()}`,
-            index: i + 1
+            example: `${parts[3].trim()}<br>${parts[4].trim()}`
           })
         }
       }
@@ -43,11 +42,12 @@ function renderTables () {
 
   // 通常のテーブルの描画
   let tableHTML = ''
+  let index = 1
   allWords.forEach(word => {
     if (!excludedWords.includes(word.id)) {
       tableHTML += `
               <tr>
-                <td class="wordNo">${word.index}</td>
+                <td class="wordNo">${index}</td>
                 <td class="wordNo">${word.level}</td>
                 <td>${word.english}</td>
                 <td>${word.japanese}</td>
@@ -55,6 +55,7 @@ function renderTables () {
                 <td class="wordNo"><button class="exclude-button" data-id="${word.id}">除外</button></td>
               </tr>
             `
+      index++
     }
   })
   tableBody.innerHTML = tableHTML
