@@ -47,8 +47,8 @@
 401★advantage★利点、優位性★One major advantage of learning a new language is the opportunity to connect with more people.★新しい言語を学ぶ大きな利点の一つは、より多くの人とつながる機会が得られることです。★1
 2123★adventure★冒険、刺激的な体験★He is an adventurer looking forward to visiting a new country.★彼は新しい国を訪れることを楽しみにしている冒険家です。★1
 1532★advertise★広告する、宣伝する★The company decided to advertise their new product on social media.★その会社は新商品をSNSで宣伝することに決めました。★1
-1936★advice★アドバイス★He gave his friend some good advice.★彼は友人に良いアドバイスを与えました。★1
-100★advise★助言する★He advised me on my decision to continue my education.★彼は私に進学について助言をくれました。★1
+1936★advice★名詞「助言」「アドバイス」★He gave his friend some good advice.★彼は友人に良いアドバイスを与えました。★1
+100★advise★動詞「助言する」「勧める」★He advised me on my decision to continue my education.★彼は私に進学について助言をくれました。★1
 9052★advise (person) to 〜★助言する、アドバイスをする★I would advise you to take a break and relax for a bit.★私は、少し休んでリラックスするようにアドバイスします。★1
 5263★advise a on b★助言する、助言を与える★He advised her on how to write a resume for her job search.★彼は彼女に就職活動のための履歴書の書き方について助言しました。★1
 317★affair★関係、事件★He publicly apologized for his affair involved in the scandal.★彼はそのスキャンダルの中での不倫関係について公に謝罪しました。★1
@@ -369,7 +369,7 @@
 1433★between★間、間に★He is confused between the two options.★彼は2つの選択肢の間で迷っています。★1
 3405★beware of★注意する、気を付ける★Beware of slippery surfaces in this area.★この場所では滑りやすいので、注意してください。★1
 193★beyond★超えて、向こう側に、以上に★The beauty of the sunset was beyond words.★その夕日の美しさは言葉で表現できないほどでした。★1
-3086★beyond number★数を超えた、非常に多くの★His talent is beyond number, and everyone is amazed.★彼の才能は数を超えたもので、誰もが驚いています。★1
+3086★beyond number★数を超えた、非常に多くの★His talent is beyond number, and everyone is amazed.★彼の才能は数え切れないほどあり、誰もが驚いています。★1
 7533★beyond question★疑う余地なく、間違いなく★His honesty is beyond question.★彼の誠実さは疑う余地がない。★1
 6932★biased toward★～に偏っている、～寄りである★He is biased toward a certain political party.★彼は特定の政党に偏った意見を持っている。★1
 973★bicycle★自転車★She rode her bicycle to the park this afternoon.★彼女は今日の午後、公園まで自転車に乗って行きました。★1
@@ -526,7 +526,7 @@
 6061★can't afford to do★手が出ない、経済的に余裕がない★I can't afford to buy a new car.★私は新しい車を買うお金がないので、手が出ません。★1
 2233★canal★運河、水路★They had a picnic by the canal.★彼らは運河のそばでピクニックをしました。★1
 5885★cannot afford to do★お金が足りなくてできない★He cannot afford to buy a new car.★彼は新しい車を買うことができない。★1
-1628★cap★キャップ、帽子の一種★She wore a stylish cap to protect her eyes from the sun.★彼女は太陽から目を守るために、おしゃれなキャップをかぶっていました。★1
+1628★cap★頭にかぶる「帽子」から，「上にかぶせるもの」「最高値を限るもの」。スラングで、「嘘」「でっち上げ」「誇張」★He is capping.★彼は嘘をついている。★1
 2235★cape★岬、またはケープ（地名）★The boat sailed around the beautiful cape, offering stunning views of the coastline.★そのボートは美しい岬を周り、海岸線の素晴らしい景色を提供しました。★1
 1450★capital★首都、資本★The capital of the country is known for its beautiful scenery.★その国の首都は美しい景観で知られています。★1
 3231★capitalize on★利用する、利益を得る★She capitalized on the new idea to grow her business.★彼女は新しいアイデアを活用してビジネスを成長させた。★1
@@ -947,7 +947,7 @@
 6715★donate A to B★AをBに寄付する★She donated a lot of money to the charity.★彼女は慈善団体にたくさんのお金を寄付しました。★1
 837★donkey★ロバ、愚かな人★The donkey carried the heavy load up the hill.★ロバは丘の上まで重い荷物を運びました。★1
 950★door★扉、ドア★Please close the door quietly when you leave the room.★部屋を出るときは静かにドアを閉めてください。★1
-2999★dos and don'ts★するべきこととしないべきこと、指南や注意事項★It's important to understand the dos and don'ts when joining a new company.★新しい会社に入ったときには、dos and don'tsをよく理解しておくことが大切です。★1
+2999★dos and don'ts★するべきこととしないべきこと、指南や注意事項★It's important to understand the dos and don'ts when joining a new company.★新しい会社に入社するときには、すべきこととすべきでないことを理解することが重要です。★1
 123★dot★点、小さな丸★Please put a dot at the end of each sentence.★各文の最後に点を付けてください。★1
 2239★double★二重の、二倍の★The recipe calls for double the amount of sugar if you want it sweeter.★レシピでは、もっと甘くしたい場合は砂糖を二倍の量にするように求められています。★1
 1748★doubt★疑念、不確かさ★I have some doubt about the accuracy of this information.★この情報の正確性について疑念があります。★1
@@ -1320,6 +1320,7 @@
 9049★get (person) to 〜★（人）に～させる、（人）を～する気にさせる★I was able to get my friend to help me with my project.★友達をプロジェクトの手伝いをさせることができました。★1
 9056★get (thing/object/material) (adjective)★取得する、手に入れる（物/対象/材料）、（形容詞）★I hope to get a new job that's exciting.★私は刺激的な新しい仕事が得られることを望んでいます。★1
 8211★get a kick out of something ★～を面白がる、～に喜びを感じる★He gets a kick out of playing new games.★彼は新しいゲームをプレイするのを面白がっている。★1
+9060★get a rain check★（誘いを）またの機会にする・延期する。雨天順延チケット（rain check）から来た表現★Sorry, I'm busy tonight. Can I get a rain check on dinner?★ごめん、今夜は忙しいんだ。夕食はまた今度にしてもいい？★1
 5805★get along with★仲良くやる、うまくやっていく★She quickly got along with her new classmates.★彼女は新しいクラスメートとすぐに仲良くやりました。★1
 5078★get away with★逃げる、免れる★He was able to get away with it without leaving any evidence behind.★彼は全くの証拠を残さずに逃げることができました。★1
 4987★get by★なんとかやっていく、過ごす★He found a way to get by despite his low income.★彼は収入が少ないが、なんとかやっていく方法を見つけました。★1
@@ -1552,7 +1553,7 @@
 117★hurt★傷つける、痛める★He was hurt by his friend's words.★彼は友達の言葉に傷ついてしまった。★1
 641★husband★夫、配偶者★My husband always supports me in my decisions.★私の夫は、私の決断をいつも支えてくれます。★1
 1286★hut★小屋、簡素な住居★We stayed in a cozy hut during our camping trip.★私たちはキャンプ旅行中に居心地の良い小屋に泊まりました。★1
-1987★i★自己、私、主語としての「I」★I enjoy reading books in my free time.★私は自由な時間に本を読むのが好きです。★1
+1987★I★自己、私、主語としての「I」★I enjoy reading books in my free time.★私は自由な時間に本を読むのが好きです。★1
 8974★I can 〜★可能性がある、～できる★I can help you with your homework if you want.★もしよければ、宿題を手伝うことができるよ。★1
 9032★I can't stand 〜★我慢できない、耐えられない★I can't stand the noise from the construction next door.★隣の工事の音が我慢できない。★1
 9034★I could've done 〜★〜することができたのに★I could've done better on the exam if I had studied harder.★もしもっと勉強していたら、試験でもっと良い成績を取れたのに。★1
@@ -1979,7 +1980,7 @@
 9051★make me (adjective)★～にさせる、～をするようにする★Your kind words make me happy.★あなたの優しい言葉が私を幸せにしてくれます。★1
 5814★make oneself understood★自分の意見を理解してもらう★He struggled to make himself understood in a different language area.★彼は異なる言語圏で自分の考えを理解してもらうのに苦労しました。★1
 2512★make out★理解する、識別する、（文章などを）読む★He finds it hard to make out her feelings.★彼は彼女の気持ちを理解するのが難しいと感じている。★1
-4845★make over★メイクオーバー★She had a makeover for her new style.★彼女は新しいスタイルのためにメイクオーバーをしました。★1
+4845★make over★何かを全く新しいもの、または大幅に改善されたものに変える。イメージチェンジ★She had a makeover for her new style.★彼女は新しいスタイルのためにイメージチェンジした。★1
 4829★make progress★進展、前進★They are making progress on the project smoothly.★彼らはプロジェクトのために順調に進展しています。★1
 1044★male★男性、オス★The male penguin takes care of the eggs while the female hunts for food.★オスのペンギンは、メスが食べ物を探している間、卵の世話をします。★1
 46★man★男★The man was walking his dog in the park.★男は公園で犬と散歩をしていました。★1
@@ -2510,6 +2511,7 @@
 6092★put forth★提案する、提出する★He put forth a new plan.★彼は新しい計画を提案しました。★1
 5085★put in★入れる、置く★He put the book in the bag.★彼はカバンの中に本を入れました。★1
 2955★put it briefly★簡潔に述べる、要約する★He put it briefly to wrap up the meeting quickly.★彼は要点を簡潔に述べて、会議を早く終わらせました。★1
+9059★put off★延期する、やる気をなくさせる・嫌にさせる★We had to put off the meeting until next week.★私たちは会議を来週まで延期しなければならなかった。★1
 2750★put through★通す、（困難な状況に）直面させる★She was put through a tough trial.★彼女は厳しい試練を乗り越えました。★1
 8043★put up at★～に泊まる★They decided to put up at that hotel.★彼らはそのホテルに泊まることにした。★1
 3558★put up with★我慢する、耐える★I always put up with his selfishness.★私はいつも彼のわがままに我慢しています。★1
@@ -3024,7 +3026,7 @@
 753★stomach★胃、お腹★I felt discomfort in my stomach after eating too much.★食べ過ぎた後、私のお腹に不快感がありました。★1
 1887★stone★石、岩★She picked up a smooth stone from the riverbank.★彼女は川岸から滑らかな石を拾った。★1
 1175★stop★止まる、停止する★He stopped firmly at the traffic light.★彼は信号機の前でしっかりと止まった。★1
-4846★stop a from doing b★止める、阻止する★He stopped his friend from singing loudly.★彼は友達が大声で歌うのを止めました。★1
+4846★stop A from doing B★AがBをするのを止める★He stopped his friend from singing loudly.★彼は友達が大声で歌うのを止めました。★1
 5626★stop by★立ち寄る★I decided to stop by his house because I was lost.★道に迷ったので、彼の家に立ち寄りました。★1
 7393★stop off★～に立ち寄る★We stopped off at a store on the way.★私たちは、途中で店に立ち寄った。★1
 8825★stop over★途中で立ち寄る、一時滞在する★We stopped over in New York for one night.★私たちはニューヨークで一晩立ち寄りました。★1
