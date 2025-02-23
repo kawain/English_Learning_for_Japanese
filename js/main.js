@@ -6,11 +6,7 @@ let isRunning = false
 let volume = 0.5
 let wordArray = []
 let originalWordArray = []
-
-// 1ブロックあたりの単語数
-const blockSize = 10
 let currentIndex = 0
-let review = false
 
 // 初期レベル
 let currentLevel = '1'
@@ -110,6 +106,7 @@ function filterAndShuffle (level) {
   shuffleArray(wordArray)
   currentIndex = 0
   count = 0
+  console.log(wordArray)
 }
 
 volumeSlider.addEventListener('input', e => {
@@ -143,76 +140,56 @@ const speakWord = async () => {
 
     const word = wordArray[currentIndex]
     count++
-    counterDisplay.textContent = `${count}回目 (${
-      review === false ? '初回' : '復習'
-    })`
+    counterDisplay.textContent = `${count}回目`
 
-    if (review) {
-      englishDisplay.textContent = word.en1
-      japaneseDisplay.textContent = word.jp1
-      englishDisplay2.textContent = word.en2
-      japaneseDisplay2.textContent = ''
-      await tts(word.en2, 'en-US')
-      japaneseDisplay2.textContent = word.jp2
-      await tts(word.jp2, 'ja-JP')
-      await tts(word.en2, 'en-US')
-    } else {
-      // 新しい行 (<tr>) を作成
-      const newRow = document.createElement('tr')
-      // セル (<td>) を作成し、内容を設定
-      const cell1 = document.createElement('td')
-      cell1.textContent = word.en1
-      const cell2 = document.createElement('td')
-      cell2.textContent = word.jp1
-      const cell3 = document.createElement('td')
-      cell3.innerHTML = `${word.en2}<br>${word.jp2}`
-      const cell4 = document.createElement('td')
-      cell4.classList.add('wordNo')
-      cell4.innerHTML = `<button class="exclude-button" data-id="${word.id}">除外</button>`
-      // セルを行に追加
-      newRow.appendChild(cell1)
-      newRow.appendChild(cell2)
-      newRow.appendChild(cell3)
-      newRow.appendChild(cell4)
-      // 行をテーブル本体に追加
-      tableBody.appendChild(newRow)
+    // 新しい行 (<tr>) を作成
+    const newRow = document.createElement('tr')
+    // セル (<td>) を作成し、内容を設定
+    const cell1 = document.createElement('td')
+    cell1.textContent = word.en1
+    const cell2 = document.createElement('td')
+    cell2.textContent = word.jp1
+    const cell3 = document.createElement('td')
+    cell3.innerHTML = `${word.en2}<br>${word.jp2}`
+    const cell4 = document.createElement('td')
+    cell4.classList.add('wordNo')
+    cell4.innerHTML = `<button class="exclude-button" data-id="${word.id}">除外</button>`
+    // セルを行に追加
+    newRow.appendChild(cell1)
+    newRow.appendChild(cell2)
+    newRow.appendChild(cell3)
+    newRow.appendChild(cell4)
+    // 行をテーブル本体に追加
+    tableBody.appendChild(newRow)
 
-      englishDisplay.textContent = word.en1
-      japaneseDisplay.textContent = '?'
-      englishDisplay2.textContent = ''
-      japaneseDisplay2.textContent = ''
-      await tts(word.en1, 'en-US')
-      await tts(word.en1, 'en-US')
-      japaneseDisplay.textContent = word.jp1
-      await tts(word.jp1, 'ja-JP')
-      await tts(word.en1, 'en-US')
-      englishDisplay2.textContent = word.en2
-      await tts(word.en2, 'en-US')
-      japaneseDisplay2.textContent = word.jp2
-      await tts(word.jp2, 'ja-JP')
-      await tts(word.en2, 'en-US')
-    }
+    englishDisplay.textContent = word.en1
+    japaneseDisplay.textContent = '?'
+    englishDisplay2.textContent = ''
+    japaneseDisplay2.textContent = ''
+    await tts(word.en1, 'en-US')
+    await tts(word.en1, 'en-US')
+    japaneseDisplay.textContent = word.jp1
+    await tts(word.jp1, 'ja-JP')
+    await tts(word.en1, 'en-US')
+    englishDisplay2.textContent = word.en2
+    await tts(word.en2, 'en-US')
+    japaneseDisplay2.textContent = word.jp2
+    await tts(word.jp2, 'ja-JP')
+    await tts(word.en2, 'en-US')
 
     currentIndex++
-    if (review) {
-      if (currentIndex % blockSize == 0) {
-        review = false
-      } else if (currentIndex >= wordArray.length) {
-        alert('終了しました。ページを再読込してください。')
-        stopStudy()
-        currentIndex = 0
-        count = 0
-        releaseWakeLock() // アプリ停止時に Wake Lock を解除する
-        return
-      }
-    } else {
-      if (currentIndex % blockSize == 0) {
-        review = true
-        currentIndex = currentIndex - blockSize
-      } else if (currentIndex >= wordArray.length) {
-        review = true
-        currentIndex = currentIndex - parseInt(wordArray.length % blockSize)
-      }
+
+    if (currentIndex >= wordArray.length) {
+      alert('終了しました。')
+      filterAndShuffle(currentLevel)
+      stopStudy()
+      counterDisplay.textContent = `${count}回目`
+      startBtn.disabled = false
+      stopBtn.disabled = true
+      englishDisplay.textContent = ''
+      japaneseDisplay.textContent = ''
+      englishDisplay2.textContent = ''
+      japaneseDisplay2.textContent = ''
     }
 
     if (isRunning) {
@@ -254,14 +231,13 @@ levelRadios.forEach(radio => {
     currentLevel = radio.value
     filterAndShuffle(currentLevel)
     stopStudy()
-    counterDisplay.textContent = `${count}回目 (初回)`
+    counterDisplay.textContent = `${count}回目`
     startBtn.disabled = false
     stopBtn.disabled = true
     englishDisplay.textContent = ''
     japaneseDisplay.textContent = ''
     englishDisplay2.textContent = ''
     japaneseDisplay2.textContent = ''
-    tableBody.innerHTML = '' // 画面クリア
   })
 })
 
