@@ -140,6 +140,11 @@ button:disabled {
   text-align: center;
 }
 
+.word-table .check {
+  text-align: center;
+  cursor: pointer;
+}
+
 .center {
   text-align: center;
 }

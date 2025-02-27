@@ -2,6 +2,7 @@ import { getExcludedWordIds, addExcludedWordId } from './localStorage.js'
 
 document.getElementById('h1').textContent = `レベル${level} `
 const tableBody = document.getElementById('wordTableBody')
+const excludeBtn = document.getElementById('exclude')
 
 let allWords = []
 
@@ -52,24 +53,33 @@ function renderTables () {
                 <td>${word.english}</td>
                 <td>${word.japanese}</td>
                 <td>${word.example}</td>
-                <td class="wordNo"><button class="exclude-button" data-id="${word.id}">除外</button></td>
+                <td class="check"><input type="checkbox" name="exclude" value="${word.id}"></td>
               </tr>
             `
       index++
     }
   })
   tableBody.innerHTML = tableHTML
+
+  document.querySelectorAll('td.check').forEach(td => {
+    td.addEventListener('click', function (event) {
+      if (event.target.tagName !== 'INPUT') {
+        const checkbox = this.querySelector('input[type="checkbox"]')
+        if (checkbox) {
+          checkbox.checked = !checkbox.checked
+        }
+      }
+    })
+  })
 }
 
-tableBody.addEventListener('click', e => {
-  const clickedElement = e.target
-  if (clickedElement.classList.contains('exclude-button')) {
-    const dataId = clickedElement.dataset.id
-    if (dataId) {
-      addExcludedWordId(dataId)
-      renderTables()
-    }
+excludeBtn.addEventListener('click', () => {
+  const checkboxes = document.querySelectorAll('input[name="exclude"]:checked')
+  const values = Array.from(checkboxes).map(checkbox => checkbox.value)
+  for (const v of values) {
+    addExcludedWordId(v)
   }
+  renderTables()
 })
 
 window.addEventListener('DOMContentLoaded', loadCSV)
