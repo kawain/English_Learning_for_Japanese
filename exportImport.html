@@ -5,19 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>LocalStorage エクスポート/インポート</title>
     <link rel="shortcut icon" href="favicon.png" type="image/x-icon" />
+    <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
-    <h1>LocalStorage エクスポート/インポート</h1>
+    <div class="container">
+      <h1>LocalStorage エクスポート/インポート</h1>
+      <p class="center">
+        <a href="./index.html">Topページに戻る</a>
+      </p>
+      <p>他のブラウザにデータを移動できます</p>
+      <p>
+        <button id="exportButton">エクスポート</button>
+      </p>
 
-    <p>他のブラウザにデータを移動できます</p>
-    <p>
-      <button id="exportButton">エクスポート</button>
-    </p>
-
-    <p>
-      <label for="importFile">インポート:</label>
-      <input type="file" id="importFile" accept=".txt" />
-    </p>
+      <p>
+        <label for="importFile">インポート:</label>
+        <input type="file" id="importFile" accept=".txt" />
+      </p>
+    </div>
 
     <script>
       const localStorageKey = 'excludedWords'

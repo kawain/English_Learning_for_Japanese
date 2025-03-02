@@ -96,6 +96,7 @@ button {
   background-color: var(--text-color);
   color: var(--bg-color);
   cursor: pointer;
+  margin: 10px 0px; /* 行を追加 */
 }
 
 button:disabled {
@@ -147,4 +148,17 @@ button:disabled {
 
 .center {
   text-align: center;
+}
+
+.container {
+  margin: 20px auto;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.link-group {
+  display: flex;
+  justify-content: center; /* 中央揃え */
+  gap: 20px; /* リンク間のスペース */
+  flex-wrap: wrap; /* 画面が狭いときは折り返す */
 }
