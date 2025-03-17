@@ -4,6 +4,8 @@ import {
   clearExcludedWordIds
 } from './localStorage.js'
 
+const checkAll = document.getElementById('checkAll')
+const checkAll2 = document.getElementById('checkAll2')
 const excludedTableBody = document.getElementById('excludedTableBody')
 const clearLocalStorageButton = document.getElementById('clearLocalStorage')
 
@@ -51,8 +53,8 @@ function renderTables () {
                 <td class="wordNo">${index}</td>
                 <td class="wordNo">${word.level}</td>
                 <td>${word.english}</td>
-                <td>${word.japanese}</td>
-                <td>${word.example}</td>
+                <td class="show-or-hide" style="opacity: 0">${word.japanese}</td>
+                <td class="show-or-hide2" style="opacity: 0">${word.example}</td>
                 <td class="wordNo"><button class="restore-button" data-id="${word.id}">復元</button></td>
               </tr>
             `
@@ -70,6 +72,44 @@ excludedTableBody.addEventListener('click', e => {
       removeExcludedWordId(dataId)
       renderTables()
     }
+  } else if (e.target.classList.contains('show-or-hide')) {
+    const element = e.target
+    if (element.style.opacity === '0') {
+      element.style.opacity = '1'
+    } else {
+      element.style.opacity = '0'
+    }
+  } else if (e.target.classList.contains('show-or-hide2')) {
+    const element = e.target
+    if (element.style.opacity === '0') {
+      element.style.opacity = '1'
+    } else {
+      element.style.opacity = '0'
+    }
+  }
+})
+
+checkAll.addEventListener('change', e => {
+  if (e.target.checked) {
+    document.querySelectorAll('.show-or-hide').forEach(element => {
+      element.style.opacity = '1'
+    })
+  } else {
+    document.querySelectorAll('.show-or-hide').forEach(element => {
+      element.style.opacity = '0'
+    })
+  }
+})
+
+checkAll2.addEventListener('change', e => {
+  if (e.target.checked) {
+    document.querySelectorAll('.show-or-hide2').forEach(element => {
+      element.style.opacity = '1'
+    })
+  } else {
+    document.querySelectorAll('.show-or-hide2').forEach(element => {
+      element.style.opacity = '0'
+    })
   }
 })
 

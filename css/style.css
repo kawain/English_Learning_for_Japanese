@@ -162,3 +162,19 @@ button:disabled {
   gap: 20px; /* リンク間のスペース */
   flex-wrap: wrap; /* 画面が狭いときは折り返す */
 }
+
+#checkAll {
+  cursor: pointer;
+}
+
+.show-or-hide {
+  cursor: pointer;
+}
+
+#checkAll2 {
+  cursor: pointer;
+}
+
+.show-or-hide2 {
+  cursor: pointer;
+}

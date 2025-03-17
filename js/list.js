@@ -1,6 +1,8 @@
 import { getExcludedWordIds, addExcludedWordId } from './localStorage.js'
 
 document.getElementById('h1').textContent = `レベル${level} `
+const checkAll = document.getElementById('checkAll')
+const checkAll2 = document.getElementById('checkAll2')
 const tableBody = document.getElementById('wordTableBody')
 const excludeBtn = document.getElementById('exclude')
 
@@ -51,8 +53,8 @@ function renderTables () {
                 <td class="wordNo">${index}</td>
                 <td class="wordNo">${word.level}</td>
                 <td>${word.english}</td>
-                <td>${word.japanese}</td>
-                <td>${word.example}</td>
+                <td class="show-or-hide" style="opacity: 0">${word.japanese}</td>
+                <td class="show-or-hide2" style="opacity: 0">${word.example}</td>
                 <td class="check"><input type="checkbox" name="exclude" value="${word.id}"></td>
               </tr>
             `
@@ -61,17 +63,48 @@ function renderTables () {
   })
   tableBody.innerHTML = tableHTML
 
-  document.querySelectorAll('td.check').forEach(td => {
-    td.addEventListener('click', function (event) {
-      if (event.target.tagName !== 'INPUT') {
-        const checkbox = this.querySelector('input[type="checkbox"]')
-        if (checkbox) {
-          checkbox.checked = !checkbox.checked
-        }
+  tableBody.addEventListener('click', e => {
+    if (e.target.classList.contains('show-or-hide')) {
+      const element = e.target
+      if (element.style.opacity === '0') {
+        element.style.opacity = '1'
+      } else {
+        element.style.opacity = '0'
       }
-    })
+    } else if (e.target.classList.contains('show-or-hide2')) {
+      const element = e.target
+      if (element.style.opacity === '0') {
+        element.style.opacity = '1'
+      } else {
+        element.style.opacity = '0'
+      }
+    }
   })
 }
+
+checkAll.addEventListener('change', e => {
+  if (e.target.checked) {
+    document.querySelectorAll('.show-or-hide').forEach(element => {
+      element.style.opacity = '1'
+    })
+  } else {
+    document.querySelectorAll('.show-or-hide').forEach(element => {
+      element.style.opacity = '0'
+    })
+  }
+})
+
+checkAll2.addEventListener('change', e => {
+  if (e.target.checked) {
+    document.querySelectorAll('.show-or-hide2').forEach(element => {
+      element.style.opacity = '1'
+    })
+  } else {
+    document.querySelectorAll('.show-or-hide2').forEach(element => {
+      element.style.opacity = '0'
+    })
+  }
+})
 
 excludeBtn.addEventListener('click', () => {
   const checkboxes = document.querySelectorAll('input[name="exclude"]:checked')
