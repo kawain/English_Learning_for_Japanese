@@ -189,14 +189,14 @@ const speakWord = async () => {
       .replace(/\[|\]/g, '')
       .split(/\s+/)
       .filter(Boolean)
-      .map(Number)
+      .map(String)
 
     let newParagraph = document.createElement('p')
     newParagraph.textContent = '【関連例文】'
     related.appendChild(newParagraph)
 
     for (let i = 0; i < arr.length; i++) {
-      let foundWord = wordArray.find(obj => obj.id === String(arr[i]))
+      let foundWord = wordArray.find(obj => obj.id === arr[i])
       newParagraph = document.createElement('p')
       newParagraph.innerHTML = `${foundWord.en2}<br>${foundWord.jp2}`
 
@@ -228,6 +228,7 @@ const speakWord = async () => {
       japaneseDisplay.textContent = ''
       englishDisplay2.textContent = ''
       japaneseDisplay2.textContent = ''
+      related.textContent = ''
     }
 
     if (isRunning) {
@@ -276,6 +277,7 @@ levelRadios.forEach(radio => {
     japaneseDisplay.textContent = ''
     englishDisplay2.textContent = ''
     japaneseDisplay2.textContent = ''
+    related.textContent = ''
   })
 })
 
