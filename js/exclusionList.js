@@ -3,6 +3,7 @@ import {
   removeExcludedWordId,
   clearExcludedWordIds
 } from './localStorage.js'
+import { shuffleArray } from './funcs.js'
 
 const checkAll = document.getElementById('checkAll')
 const checkAll2 = document.getElementById('checkAll2')
@@ -35,6 +36,7 @@ async function loadCSV () {
       }
     }
 
+    shuffleArray(allWords)
     renderTables()
     console.log('Loaded words:', allWords)
   } catch (error) {

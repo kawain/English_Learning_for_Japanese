@@ -1,4 +1,6 @@
 import { getExcludedWordIds, addExcludedWordId } from './localStorage.js'
+import { shuffleArray } from './funcs.js'
+
 
 document.getElementById('h1').textContent = `レベル${level} `
 const tableBody = document.getElementById('wordTableBody')
@@ -32,6 +34,7 @@ async function loadCSV () {
       }
     }
 
+    shuffleArray(allWords)
     renderTables()
     console.log('Loaded words:', allWords)
   } catch (error) {
