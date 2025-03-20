@@ -80,7 +80,7 @@ async function loadCSV () {
       const parts = rows[i].split('\t')
       if (parts.length == 7) {
         const word = {
-          id: parseInt(parts[0].trim()),
+          id: parts[0].trim(),
           en: parts[0].trim(),
           en1: parts[1].trim(),
           jp1: parts[2].trim(),
@@ -196,7 +196,7 @@ const speakWord = async () => {
     related.appendChild(newParagraph)
 
     for (let i = 0; i < arr.length; i++) {
-      let foundWord = wordArray.find(obj => obj.id === arr[i])
+      let foundWord = wordArray.find(obj => obj.id === String(arr[i]))
       newParagraph = document.createElement('p')
       newParagraph.innerHTML = `${foundWord.en2}<br>${foundWord.jp2}`
 
