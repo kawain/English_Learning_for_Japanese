@@ -20,6 +20,8 @@ const englishDisplay = document.getElementById('englishWord')
 const japaneseDisplay = document.getElementById('japaneseWord')
 const englishDisplay2 = document.getElementById('englishWord2')
 const japaneseDisplay2 = document.getElementById('japaneseWord2')
+const related = document.getElementById('related')
+
 const levelRadios = document.querySelectorAll('input[name="level"]')
 const reviewBox = document.getElementById('reviewBox')
 const tableBody = document.getElementById('wordTableBody')
@@ -75,15 +77,17 @@ async function loadCSV () {
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
 
-      const parts = rows[i].split('★')
-      if (parts.length == 6) {
+      const parts = rows[i].split('\t')
+      if (parts.length == 7) {
         const word = {
-          id: parts[0].trim(),
+          id: parseInt(parts[0].trim()),
+          en: parts[0].trim(),
           en1: parts[1].trim(),
           jp1: parts[2].trim(),
           en2: parts[3].trim(),
           jp2: parts[4].trim(),
-          level: parts[5].trim()
+          level: parts[5].trim(),
+          similar: parts[6].trim()
         }
         // 除外された単語でない場合のみ配列に追加
         if (!excludedWords.includes(word.id)) {
@@ -166,6 +170,8 @@ const speakWord = async () => {
     japaneseDisplay.textContent = '?'
     englishDisplay2.textContent = ''
     japaneseDisplay2.textContent = ''
+    related.textContent = ''
+
     await tts(word.en1, 'en-US')
     await tts(word.en1, 'en-US')
     japaneseDisplay.textContent = word.jp1
@@ -176,6 +182,26 @@ const speakWord = async () => {
     japaneseDisplay2.textContent = word.jp2
     await tts(word.jp2, 'ja-JP')
     await tts(word.en2, 'en-US')
+
+    // 関連
+    const arr = word.similar
+      .trim()
+      .replace(/\[|\]/g, '')
+      .split(/\s+/)
+      .filter(Boolean)
+      .map(Number)
+
+    let newParagraph = document.createElement('p')
+    newParagraph.textContent = '【関連例文】'
+    related.appendChild(newParagraph)
+
+    for (let i = 0; i < arr.length; i++) {
+      let foundWord = wordArray.find(obj => obj.id === arr[i])
+      newParagraph = document.createElement('p')
+      newParagraph.textContent = `${foundWord.en2} (${foundWord.jp2})`
+      related.appendChild(newParagraph)
+      await tts(foundWord.en2, 'en-US')
+    }
 
     currentIndex++
 

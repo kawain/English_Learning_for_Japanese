@@ -1,8 +1,6 @@
 import { getExcludedWordIds, addExcludedWordId } from './localStorage.js'
 
 document.getElementById('h1').textContent = `レベル${level} `
-const checkAll = document.getElementById('checkAll')
-const checkAll2 = document.getElementById('checkAll2')
 const tableBody = document.getElementById('wordTableBody')
 const excludeBtn = document.getElementById('exclude')
 
@@ -19,15 +17,16 @@ async function loadCSV () {
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
 
-      const parts = rows[i].split('★')
-      if (parts.length == 6) {
+      const parts = rows[i].split('\t')
+      if (parts.length == 7) {
         if (level === parts[5].trim()) {
           allWords.push({
             id: parts[0].trim(),
             level: parts[5].trim(),
             english: parts[1].trim(),
             japanese: parts[2].trim(),
-            example: `${parts[3].trim()}<br>${parts[4].trim()}`
+            example: `${parts[3].trim()}<br>${parts[4].trim()}`,
+            similar: parts[6].trim()
           })
         }
       }
@@ -37,6 +36,24 @@ async function loadCSV () {
     console.log('Loaded words:', allWords)
   } catch (error) {
     console.error('Error loading CSV:', error)
+  }
+}
+
+function handleTableBodyClick (e) {
+  if (e.target.classList.contains('show-or-hide')) {
+    const element = e.target
+    if (element.style.opacity === '0') {
+      element.style.opacity = '1'
+    } else {
+      element.style.opacity = '0'
+    }
+  } else if (e.target.classList.contains('show-or-hide2')) {
+    const element = e.target
+    if (element.style.opacity === '0') {
+      element.style.opacity = '1'
+    } else {
+      element.style.opacity = '0'
+    }
   }
 }
 
@@ -62,27 +79,11 @@ function renderTables () {
     }
   })
   tableBody.innerHTML = tableHTML
-
-  tableBody.addEventListener('click', e => {
-    if (e.target.classList.contains('show-or-hide')) {
-      const element = e.target
-      if (element.style.opacity === '0') {
-        element.style.opacity = '1'
-      } else {
-        element.style.opacity = '0'
-      }
-    } else if (e.target.classList.contains('show-or-hide2')) {
-      const element = e.target
-      if (element.style.opacity === '0') {
-        element.style.opacity = '1'
-      } else {
-        element.style.opacity = '0'
-      }
-    }
-  })
+  tableBody.removeEventListener('click', handleTableBodyClick)
+  tableBody.addEventListener('click', handleTableBodyClick)
 }
 
-checkAll.addEventListener('change', e => {
+document.getElementById('checkAll').addEventListener('change', e => {
   if (e.target.checked) {
     document.querySelectorAll('.show-or-hide').forEach(element => {
       element.style.opacity = '1'
@@ -94,7 +95,7 @@ checkAll.addEventListener('change', e => {
   }
 })
 
-checkAll2.addEventListener('change', e => {
+document.getElementById('checkAll2').addEventListener('change', e => {
   if (e.target.checked) {
     document.querySelectorAll('.show-or-hide2').forEach(element => {
       element.style.opacity = '1'

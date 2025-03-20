@@ -51,26 +51,26 @@ h2 {
   text-align: center;
   border: 1px solid var(--text-color);
   border-radius: 8px;
-  padding: 20px 10px;
+  padding: 10px 10px;
 }
 
 .english {
-  padding: 10px 0;
-  font-size: 5rem;
+  padding: 5px 0;
+  font-size: 4rem;
 }
 
 .japanese {
-  padding: 10px 0;
+  padding: 5px 0;
   font-size: 2rem;
 }
 
 .english2 {
-  padding: 10px 0;
+  padding: 5px 0;
   font-size: 2rem;
 }
 
 .japanese2 {
-  padding: 10px 0;
+  padding: 5px 0;
   font-size: 1.5rem;
 }
 
@@ -177,4 +177,12 @@ button:disabled {
 
 .show-or-hide2 {
   cursor: pointer;
+}
+
+#related {
+  padding: 5px 0;
+}
+
+#related p {
+  padding: 3px 0;
 }

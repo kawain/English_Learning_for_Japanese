@@ -22,14 +22,15 @@ async function loadCSV () {
     for (let i = 0; i < rows.length; i++) {
       if (rows[i].trim() === '') continue
 
-      const parts = rows[i].split('★')
-      if (parts.length == 6) {
+      const parts = rows[i].split('\t')
+      if (parts.length == 7) {
         allWords.push({
           id: parts[0].trim(),
           level: parts[5].trim(),
           english: parts[1].trim(),
           japanese: parts[2].trim(),
-          example: `${parts[3].trim()}<br>${parts[4].trim()}`
+          example: `${parts[3].trim()}<br>${parts[4].trim()}`,
+          similar: parts[6].trim()
         })
       }
     }
@@ -38,6 +39,31 @@ async function loadCSV () {
     console.log('Loaded words:', allWords)
   } catch (error) {
     console.error('Error loading CSV:', error)
+  }
+}
+
+function handleExcludedTableBodyClick (e) {
+  const clickedElement = e.target
+  if (clickedElement.classList.contains('restore-button')) {
+    const dataId = clickedElement.dataset.id
+    if (dataId) {
+      removeExcludedWordId(dataId)
+      renderTables()
+    }
+  } else if (e.target.classList.contains('show-or-hide')) {
+    const element = e.target
+    if (element.style.opacity === '0') {
+      element.style.opacity = '1'
+    } else {
+      element.style.opacity = '0'
+    }
+  } else if (e.target.classList.contains('show-or-hide2')) {
+    const element = e.target
+    if (element.style.opacity === '0') {
+      element.style.opacity = '1'
+    } else {
+      element.style.opacity = '0'
+    }
   }
 }
 
@@ -62,32 +88,9 @@ function renderTables () {
     }
   })
   excludedTableBody.innerHTML = excludedTableHTML
+  excludedTableBody.removeEventListener('click', handleExcludedTableBodyClick)
+  excludedTableBody.addEventListener('click', handleExcludedTableBodyClick)
 }
-
-excludedTableBody.addEventListener('click', e => {
-  const clickedElement = e.target
-  if (clickedElement.classList.contains('restore-button')) {
-    const dataId = clickedElement.dataset.id
-    if (dataId) {
-      removeExcludedWordId(dataId)
-      renderTables()
-    }
-  } else if (e.target.classList.contains('show-or-hide')) {
-    const element = e.target
-    if (element.style.opacity === '0') {
-      element.style.opacity = '1'
-    } else {
-      element.style.opacity = '0'
-    }
-  } else if (e.target.classList.contains('show-or-hide2')) {
-    const element = e.target
-    if (element.style.opacity === '0') {
-      element.style.opacity = '1'
-    } else {
-      element.style.opacity = '0'
-    }
-  }
-})
 
 checkAll.addEventListener('change', e => {
   if (e.target.checked) {
