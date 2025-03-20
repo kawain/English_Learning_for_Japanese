@@ -51,12 +51,12 @@ h2 {
   text-align: center;
   border: 1px solid var(--text-color);
   border-radius: 8px;
-  padding: 10px 10px;
+  padding: 10px 20px;
 }
 
 .english {
   padding: 5px 0;
-  font-size: 4rem;
+  font-size: 5rem;
 }
 
 .japanese {
@@ -184,5 +184,7 @@ button:disabled {
 }
 
 #related p {
-  padding: 3px 0;
+  padding: 15px 0;
+  font-size: 1.5rem;
+  border-bottom: 1px solid var(--text-color);
 }

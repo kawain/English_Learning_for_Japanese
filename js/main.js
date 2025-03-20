@@ -198,8 +198,20 @@ const speakWord = async () => {
     for (let i = 0; i < arr.length; i++) {
       let foundWord = wordArray.find(obj => obj.id === arr[i])
       newParagraph = document.createElement('p')
-      newParagraph.textContent = `${foundWord.en2} (${foundWord.jp2})`
-      related.appendChild(newParagraph)
+      newParagraph.innerHTML = `${foundWord.en2}<br>${foundWord.jp2}`
+
+      // 2番目の要素を取得
+      const secondChild = related.children[1]
+      // 2番目の要素が存在する場合
+      if (secondChild) {
+        // insertBefore を使って2番目に追加
+        related.insertBefore(newParagraph, secondChild)
+      } else {
+        // 2番目の要素が存在しない場合（子要素が1つ以下の場合）
+        // appendChild を使って最後に追加（または最初に追加）
+        related.appendChild(newParagraph)
+      }
+
       await tts(foundWord.en2, 'en-US')
     }
 
