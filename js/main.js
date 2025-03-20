@@ -81,7 +81,6 @@ async function loadCSV () {
       if (parts.length == 7) {
         const word = {
           id: parts[0].trim(),
-          en: parts[0].trim(),
           en1: parts[1].trim(),
           jp1: parts[2].trim(),
           en2: parts[3].trim(),
