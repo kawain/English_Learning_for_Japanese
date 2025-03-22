@@ -90,6 +90,13 @@ async function loadCSV () {
       }
     }
 
+    // localStorageからレベルを取得、なければデフォルトの'1'
+    appState.currentLevel = localStorage.getItem('currentLevel') || '1'
+    // ラジオボタンをセット
+    document.querySelector(
+      `input[name="level"][value="${appState.currentLevel}"]`
+    ).checked = true
+
     // 初期レベルでフィルタリングしてシャッフル
     filterAndShuffle(appState.currentLevel)
 
@@ -170,7 +177,7 @@ async function displayRelatedWords (word) {
   const arr = word.similar
     .trim()
     .replace(/\[|\]/g, '')
-    .split(/\s+/)
+    .split(/,/)
     .filter(Boolean)
     .map(String)
 
@@ -278,18 +285,10 @@ domElements.stopBtn.disabled = true
 // ラジオボタンの変更を監視
 domElements.levelRadios.forEach(radio => {
   radio.addEventListener('change', () => {
-    appState.currentLevel = radio.value
-    filterAndShuffle(appState.currentLevel)
-    stopStudy()
-    domElements.counterDisplay.textContent = `${appState.count}回目`
-    domElements.startBtn.disabled = false
-    domElements.stopBtn.disabled = true
-    domElements.englishDisplay.textContent = ''
-    domElements.japaneseDisplay.textContent = ''
-    domElements.englishDisplay2.textContent = ''
-    domElements.japaneseDisplay2.textContent = ''
-    domElements.related.textContent = ''
-    domElements.tableBody.innerHTML = ''
+    // 選択されたレベルをlocalStorageに保存
+    localStorage.setItem('currentLevel', radio.value)
+    // ページを再読み込み
+    location.reload()
   })
 })
 
