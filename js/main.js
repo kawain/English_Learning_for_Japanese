@@ -11,7 +11,8 @@ const appState = {
   originalWordArray: [],
   currentIndex: 0,
   currentLevel: '1',
-  wakeLock: null
+  wakeLock: null,
+  relatedWords: true
 }
 
 // DOM要素の取得をまとめる
@@ -28,7 +29,8 @@ const domElements = {
   related: document.getElementById('related'),
   levelRadios: document.querySelectorAll('input[name="level"]'),
   reviewBox: document.getElementById('reviewBox'),
-  tableBody: document.getElementById('wordTableBody')
+  tableBody: document.getElementById('wordTableBody'),
+  relateCheck: document.querySelector('input[name="relate"]')
 }
 
 // Wake Lock 関連の関数
@@ -227,9 +229,11 @@ async function speakWord () {
     await tts(word.jp2, 'ja-JP')
     await tts(word.en2, 'en-US')
 
-    // 関連
-    domElements.related.innerHTML = '<p>【関連例文】</p>'
-    await displayRelatedWords(word)
+    if (appState.relatedWords) {
+      // 関連
+      domElements.related.innerHTML = '<p>【関連例文】</p>'
+      await displayRelatedWords(word)
+    }
 
     appState.currentIndex++
 
@@ -301,6 +305,10 @@ domElements.tableBody.addEventListener('click', e => {
       alert('除外しました')
     }
   }
+})
+
+domElements.relateCheck.addEventListener('change', () => {
+  appState.relatedWords = domElements.relateCheck.checked
 })
 
 window.addEventListener('DOMContentLoaded', loadCSV)
