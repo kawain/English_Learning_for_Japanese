@@ -12,7 +12,7 @@ const appState = {
   currentIndex: 0,
   currentLevel: '1',
   wakeLock: null,
-  relatedWords: true
+  relatedWords: false
 }
 
 // DOM要素の取得をまとめる
@@ -30,7 +30,8 @@ const domElements = {
   levelRadios: document.querySelectorAll('input[name="level"]'),
   reviewBox: document.getElementById('reviewBox'),
   tableBody: document.getElementById('wordTableBody'),
-  relateCheck: document.querySelector('input[name="relate"]')
+  relateCheck: document.querySelector('input[name="relate"]'),
+  exclusionBtn: document.getElementById('exclusion')
 }
 
 // Wake Lock 関連の関数
@@ -171,6 +172,20 @@ function addWordToTable (word) {
   domElements.tableBody.appendChild(newRow)
 }
 
+// 要素にハイライトアニメーションを適用する関数
+function applyHighlightAnimation (element) {
+  // 一瞬色を変えるスタイルを追加
+  element.classList.add('highlight')
+  // アニメーション終了後にクラスを削除
+  element.addEventListener(
+    'animationend',
+    () => {
+      element.classList.remove('highlight')
+    },
+    { once: true }
+  ) // once: true で一度だけ実行
+}
+
 // 関連語を表示する関数
 async function displayRelatedWords (word) {
   if (!word.similar) {
@@ -189,10 +204,13 @@ async function displayRelatedWords (word) {
     let foundWord = appState.originalWordArray.find(obj => obj.id === arr[i])
     if (foundWord) {
       const newRelatedElement = document.createElement('p')
-      newRelatedElement.innerHTML = `${foundWord.en2}<br>${foundWord.jp2}`
+      newRelatedElement.innerHTML = `${foundWord.en2}<br><small>${foundWord.jp2}</small>`
       // 2番目の子要素として挿入
       relatedContainer.insertBefore(newRelatedElement, relatedTitle.nextSibling)
-      await tts(foundWord.en2, 'en-US') // 読み上げを待つ
+      applyHighlightAnimation(newRelatedElement)
+
+      await tts(foundWord.en2, 'en-US')
+      await tts(foundWord.jp2, 'ja-JP')
     }
   }
 }
@@ -213,19 +231,31 @@ async function speakWord () {
     addWordToTable(word)
 
     domElements.englishDisplay.textContent = word.en1
+    applyHighlightAnimation(domElements.englishDisplay)
+
     domElements.japaneseDisplay.textContent = '?'
     domElements.englishDisplay2.textContent = ''
     domElements.japaneseDisplay2.textContent = ''
     domElements.related.textContent = ''
+    domElements.exclusionBtn.style.display = 'none'
+    domElements.exclusionBtn.dataset.id = word.id
 
     await tts(word.en1, 'en-US')
     await tts(word.en1, 'en-US')
     domElements.japaneseDisplay.textContent = word.jp1
+    applyHighlightAnimation(domElements.japaneseDisplay)
+
+    domElements.exclusionBtn.style.display = 'block'
+
     await tts(word.jp1, 'ja-JP')
     await tts(word.en1, 'en-US')
     domElements.englishDisplay2.textContent = word.en2
+    applyHighlightAnimation(domElements.englishDisplay2)
+
     await tts(word.en2, 'en-US')
     domElements.japaneseDisplay2.textContent = word.jp2
+    applyHighlightAnimation(domElements.japaneseDisplay2)
+
     await tts(word.jp2, 'ja-JP')
     await tts(word.en2, 'en-US')
 
@@ -304,6 +334,15 @@ domElements.tableBody.addEventListener('click', e => {
       addExcludedWordId(dataId)
       alert('除外しました')
     }
+  }
+})
+
+domElements.exclusionBtn.addEventListener('click', e => {
+  const clickedElement = e.target
+  const dataId = clickedElement.dataset.id
+  if (dataId) {
+    addExcludedWordId(dataId)
+    alert('除外しました')
   }
 })
 
