@@ -59,21 +59,25 @@ h2 {
 .english {
   padding: 5px 0;
   font-size: 5rem;
+  text-align: center;
 }
 
 .japanese {
   padding: 5px 0;
   font-size: 2rem;
+  text-align: center;
 }
 
 .english2 {
   padding: 5px 0;
   font-size: 2rem;
+  text-align: center;
 }
 
 .japanese2 {
   padding: 5px 0;
   font-size: 1.5rem;
+  text-align: center;
 }
 
 .controls {
