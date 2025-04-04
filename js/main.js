@@ -287,6 +287,7 @@ async function speakWord () {
   } catch (error) {
     console.error('Speech synthesis error:', error)
     alert('音声合成でエラーが発生しました。')
+    stopStudy()
   }
 }
 
@@ -351,3 +352,36 @@ domElements.relateCheck.addEventListener('change', () => {
 })
 
 window.addEventListener('DOMContentLoaded', loadCSV)
+
+async function startTestMode (startId) {
+  if (!startId) {
+    alert('テストモードを開始するためのIDを指定してください。')
+    return
+  }
+  console.log(`テストモード開始: ID ${startId} 以降`)
+
+  // originalWordArray から startId 以降の単語を抽出 (除外単語も含む)
+  appState.wordArray = appState.originalWordArray.filter(
+    word => parseInt(word.id) >= parseInt(startId)
+  )
+
+  if (appState.wordArray.length === 0) {
+    alert(`ID ${startId} 以降の単語が見つかりませんでした。`)
+    return
+  }
+
+  console.log('テストモード用単語リスト (シャッフルなし):', appState.wordArray)
+
+  // 状態リセット
+  appState.currentIndex = 0
+  appState.count = 0
+  domElements.counterDisplay.textContent = `${appState.count}回目`
+  domElements.tableBody.innerHTML = ''
+  appState.isRunning = true
+  domElements.startBtn.disabled = true
+  domElements.stopBtn.disabled = false
+  domElements.reviewBox.style.display = 'block'
+  speakWord()
+}
+
+window.testMode = startTestMode
